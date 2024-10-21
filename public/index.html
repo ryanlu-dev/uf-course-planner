@@ -75,11 +75,11 @@
       async function create() {
         const data = {
           name: "Artificio Websiticus",
-          major: "UGRD_TST",
+          major_id: "UGRD_TST",
           current_semester: 3
         };
   
-        const endpoint = `/data-api/rest/users/`;
+        const endpoint = '/data-api/rest/users';
         const response = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

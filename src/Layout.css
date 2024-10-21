@@ -68,9 +68,7 @@
     width: calc(100% - 250px); /* Adjust width */
     transition: margin-left 0.3s, width 0.3s;
 }
-.highlight-uf {
-    color: #00529b
-}
+
 
 .sidebar.collapsed ~ .content {
     margin-left: 40px; /* Adjust margin when sidebar is collapsed */
@@ -78,12 +76,9 @@
 }
 
 /* Header and Footer styles */
-.layout-header, .layout-footer {
+.layout-footer {
     text-align: center;
     margin-bottom: 20px;
-}
-
-.layout-footer {
     margin-top: 20px;
     font-size: 14px;
 }

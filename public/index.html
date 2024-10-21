@@ -50,7 +50,7 @@
   
       async function get() {
         const id = 1;
-        const endpoint = `/data-api/rest/users/id`;
+        const endpoint = `/data-api/rest/users/uid`;
         const response = await fetch(`${endpoint}/${id}`);
         const result = await response.json();
         console.table(result.value);
@@ -62,7 +62,7 @@
           name: "Sampliferous Amadeus"
         };
   
-        const endpoint = '/data-api/rest/users/id';
+        const endpoint = '/data-api/rest/users/uid';
         const response = await fetch(`${endpoint}/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -74,7 +74,9 @@
   
       async function create() {
         const data = {
-          Name: "Artificio Websiticus"
+          name: "Artificio Websiticus",
+          major: "UGRD_TST",
+          current_semester: 3
         };
   
         const endpoint = `/data-api/rest/users/`;
@@ -89,7 +91,7 @@
   
       async function del() {
         const id = 3;
-        const endpoint = '/data-api/rest/users/id';
+        const endpoint = '/data-api/rest/users/uid';
         const response = await fetch(`${endpoint}/${id}`, {
           method: "DELETE"
         });

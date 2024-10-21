@@ -20,7 +20,7 @@
     "host": {
       "mode": "production",
       "cors": {
-        "origins": ["http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/", "https://delightful-tree-05363c61e.5.azurestaticapps.net"],
+        "origins": ["http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/", "https://delightful-tree-05363c61e.5.azurestaticapps.net", "http://localhost:3000"],
         "allow-credentials": false
       },
       "authentication": {
@@ -29,8 +29,62 @@
     }
   },
   "entities": {
-    "Person": {
-      "source": "mytestpersontable",
+    "courses": {
+      "source": "courses",
+      "permissions": [
+        {
+          "actions": ["*"],
+          "role": "anonymous"
+        }
+      ]
+    },
+    "user_courses": {
+      "source": "user_courses",
+      "permissions": [
+        {
+          "actions": ["*"],
+          "role": "anonymous"
+        }
+      ]
+    },
+    "departments": {
+      "source": "departments",
+      "permissions": [
+        {
+          "actions": ["*"],
+          "role": "anonymous"
+        }
+      ]
+    },
+    "majors": {
+      "source": "majors",
+      "permissions": [
+        {
+          "actions": ["*"],
+          "role": "anonymous"
+        }
+      ]
+    },
+    "major_courses": {
+      "source": "major_courses",
+      "permissions": [
+        {
+          "actions": ["*"],
+          "role": "anonymous"
+        }
+      ]
+    },
+    "sections": {
+      "source": "sections",
+      "permissions": [
+        {
+          "actions": ["*"],
+          "role": "anonymous"
+        }
+      ]
+    },
+    "users": {
+      "source": "users",
       "permissions": [
         {
           "actions": ["*"],

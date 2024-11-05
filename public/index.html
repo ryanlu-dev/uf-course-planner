@@ -1,107 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>React App</title>
-  </head>
-  <body>
+    <style>
+        /* Basic styles for layout */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style for the developer tools panel */
+        .dev-tools {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 300px;
+            background-color: #f4f4f4;
+            border-left: 2px solid #ccc;
+            padding: 10px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+            .dev-tools h2 {
+                font-size: 1.2em;
+                margin-top: 0;
+            }
+
+        /* Style for the debug button */
+        .debug-button {
+            position: fixed;
+            top: 20px;
+            right: 320px;
+            padding: 10px 15px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Show developer tools when active */
+        .dev-tools.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <h1>Static Web Apps Database Connections</h1>
-    <blockquote>
-      Open the console in the browser developer tools (F12) to see the API responses.
-    </blockquote>
-    <div>
-      <button id="list" onclick="list()">List</button>
-      <button id="get" onclick="get()">Get</button>
-      <button id="update" onclick="update()">Update</button>
-      <button id="create" onclick="create()">Create</button>
-      <button id="delete" onclick="del()">Delete</button>
+
+    <!-- Debug button to toggle developer tools -->
+    <button class="debug-button" onclick="toggleDevTools()">Debug</button>
+
+    <!-- Developer tools panel -->
+    <div class="dev-tools" id="devToolsPanel">
+        <h2>Developer Tools</h2>
+        <p>Use the buttons below to interact with the API:</p>
+        <button onclick="list()">List</button>
+        <button onclick="get()">Get</button>
+        <button onclick="update()">Update</button>
+        <button onclick="create()">Create</button>
+        <button onclick="del()">Delete</button>
     </div>
+
     <script>
-      async function list() {
-        const endpoint = '/data-api/rest/users';
-        const response = await fetch(endpoint);
-        const data = await response.json();
-        console.table(data.value);
-      }
-  
-      async function get() {
-        const id = 1;
-        const endpoint = `/data-api/rest/users/uid`;
-        const response = await fetch(`${endpoint}/${id}`);
-        const result = await response.json();
-        console.table(result.value);
-      }
-  
-      async function update() {
-        const id = 1;
-        const data = {
-          name: "Sampliferous Amadeus"
-        };
-  
-        const endpoint = '/data-api/rest/users/uid';
-        const response = await fetch(`${endpoint}/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        const result = await response.json();
-        console.table(result.value);
-      }
-  
-      async function create() {
-        const data = {
-          name: "Artificio Websiticus",
-          major_id: "UGRD_TST",
-          current_semester: 3
-        };
-  
-        const endpoint = '/data-api/rest/users';
-        const response = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        const result = await response.json();
-        console.table(result.value);
-      }
-  
-      async function del() {
-        const id = 3;
-        const endpoint = '/data-api/rest/users/uid';
-        const response = await fetch(`${endpoint}/${id}`, {
-          method: "DELETE"
-        });
-        if(response.ok) {
-          console.log(`Record deleted: ${ id }`)
-        } else {
-          console.log(response);
+        // Function to toggle the developer tools panel
+        function toggleDevTools() {
+            const devToolsPanel = document.getElementById("devToolsPanel");
+            devToolsPanel.classList.toggle("show");
         }
-      }
-  
+
+        // Sample async functions for API interactions
+        async function list() {
+            const endpoint = "/data-api/rest/users";
+            const response = await fetch(endpoint);
+            const data = await response.json();
+            console.table(data.value);
+        }
+
+        async function get() {
+            const id = 1;
+            const endpoint = `/data-api/rest/users/uid/${id}`;
+            const response = await fetch(endpoint);
+            const result = await response.json();
+            console.table(result.value);
+        }
+
+        async function update() {
+            const id = 1;
+            const data = { name: "Sampliferous Amadeus" };
+            const endpoint = `/data-api/rest/users/uid/${id}`;
+            const response = await fetch(endpoint, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            console.table(result.value);
+        }
+
+        async function create() {
+            const data = {
+                name: "Artificio Websiticus",
+                major_id: "UGRD_TST",
+                current_semester: 3
+            };
+            const endpoint = "/data-api/rest/users";
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            console.table(result.value);
+        }
+
+        async function del() {
+            const id = 3;
+            const endpoint = `/data-api/rest/users/uid/${id}`;
+            const response = await fetch(endpoint, { method: "DELETE" });
+            if (response.ok) {
+                console.log(`Record deleted: ${id}`);
+            } else {
+                console.log(response);
+            }
+        }
     </script>
-  </body>
+</body>
 </html>

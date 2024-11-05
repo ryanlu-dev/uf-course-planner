@@ -1,28 +1,53 @@
+/* src/Styles/ScheduleCalendar.css */
+
 .schedule-calendar {
-    text-align: center;
     padding: 20px;
+    background-color: #F5F5F5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.rbc-calendar {
-    font-family: Arial, sans-serif;
-    border: 1px solid #ddd;
-}
-
-.rbc-event {
-    background-color: #3498db;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-}
-
-    .rbc-event .rbc-event-content {
-        font-size: 0.9em;
+    .schedule-calendar h1 {
+        color: #0C4DA2;
+        text-align: center;
+        margin-bottom: 20px;
     }
 
-.rbc-toolbar {
-    background-color: #f9f9f9;
+/* Override react-big-calendar styles */
+.rbc-calendar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.rbc-time-view .rbc-time-content {
-    border-top: 2px solid #ddd;
+.rbc-toolbar {
+    margin-bottom: 20px;
+}
+
+    .rbc-toolbar button {
+        background-color: #0C4DA2;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        margin: 0 5px;
+        border-radius: 5px;
+    }
+
+        .rbc-toolbar button:hover {
+            background-color: #094080;
+        }
+
+.rbc-event {
+    background-color: #dd661e;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+
+    .rbc-event:hover {
+        background-color: #e59400;
+    }
+
+.rbc-today {
+    background-color: #e3f2fd;
 }

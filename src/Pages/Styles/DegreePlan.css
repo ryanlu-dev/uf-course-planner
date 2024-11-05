@@ -1,0 +1,73 @@
+/* src/Styles/DegreePlan.css */
+
+.degree-plan-page {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F5F5F5;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+    .degree-plan-page h2 {
+        color: #0C4DA2;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+.semester {
+    margin-bottom: 40px;
+}
+
+    .semester h3 {
+        background-color: #0C4DA2;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+.semester-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .semester-table th,
+    .semester-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .semester-table th {
+        background-color: #e9ecef;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .semester-table tr:nth-child(even) td {
+        background-color: #f9f9f9;
+    }
+
+    /* Fixed column widths */
+    .semester-table th:first-child,
+    .semester-table td:first-child {
+        width: 25%;
+    }
+
+    .semester-table th:nth-child(2),
+    .semester-table td:nth-child(2) {
+        width: 55%;
+    }
+
+    .semester-table th:last-child,
+    .semester-table td:last-child {
+        width: 20%;
+        text-align: center;
+    }
+
+.total-credits {
+    text-align: right;
+    font-size: 1.1em;
+    margin-top: 10px;
+    font-weight: bold;
+}

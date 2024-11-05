@@ -1,40 +1,52 @@
+/* src/HeaderBar/UserDropdown/UserDropdown.css */
+
 /* Container styling */
 .user-dropdown {
     position: relative;
-    display: inline-block;
-    cursor: pointer;
-  }
-  
-  /* Icon styling */
-  .user-icon {
-    padding: 10px;
-    background-color: #007bff; /* Blue background */
-    color: white;
-    border-radius: 5px;
-    display: inline-block;
-    font-size: 16px;
-    text-align: center;
-  }
-  
-  /* Dropdown Menu */
-  .dropdown-menu {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Icon styling */
+.user-icon {
+    padding: 10px;
+    color: white;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.user-icon {
+    background-color: transparent;
+    border-radius: 0;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
     position: absolute;
-    top: 100%; /* Positioned right below the user icon */
-    left: 0;
+    top: calc(100% + 10px); /* Positioned below the user icon */
+    right: 0; /* Aligns the dropdown to the right edge of the icon */
     background-color: white;
     border: 1px solid #ddd;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for better visibility */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     width: 150px;
     z-index: 1;
-    margin-top: 10px;
     padding: 5px 0;
-  }
-  
-  /* Dropdown Item Styling */
-  .dropdown-menu button {
+}
+
+/* Adjust the dropdown menu position */
+@media screen and (min-width: 0px) {
+    .dropdown-menu {
+        right: 10px; /* Move the dropdown slightly to the left */
+    }
+}
+
+/* Dropdown Item Styling */
+.dropdown-menu button {
     display: block;
     width: 100%;
     padding: 10px;
@@ -46,29 +58,29 @@
     font-size: 14px;
     color: #333;
     border-bottom: 1px solid #ddd;
-  }
-  
-  .dropdown-menu button:last-child {
-    border-bottom: none; /* Remove border from the last button */
-  }
-  
-  .dropdown-menu button:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Dropdown Animation (Optional) */
-  .dropdown-menu {
+}
+
+    .dropdown-menu button:last-child {
+        border-bottom: none;
+    }
+
+    .dropdown-menu button:hover {
+        background-color: #f1f1f1;
+    }
+
+/* Dropdown Animation */
+.dropdown-menu {
     animation: dropdownAnimation 0.3s ease-out;
-  }
-  
-  @keyframes dropdownAnimation {
+}
+
+@keyframes dropdownAnimation {
     0% {
-      opacity: 0;
-      transform: translateY(-10px);
+        opacity: 0;
+        transform: translateY(-10px);
     }
+
     100% {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
-  }
-  
+}

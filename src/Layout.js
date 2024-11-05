@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import './Layout.css'; // Add custom styles for the sidebar layout
+// src/Layout.js
+import React, { useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import "./Layout.css"; 
+import { HeaderBar } from "./HeaderBar/HeaderBar";
+import {
+    FaHome,
+    FaBook,
+    FaGraduationCap,
+    FaCalendarAlt,
+    FaChartBar,
+    FaCog,
+    FaQuestionCircle,
+    FaBars,
+} from "react-icons/fa";
 
 const Layout = () => {
-    // State to manage whether the sidebar is collapsed or expanded
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     // Function to toggle the sidebar
@@ -14,35 +25,66 @@ const Layout = () => {
     return (
         <div className="layout-container">
             {/* Collapsible Sidebar */}
-            <div className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
-                {/* Collapse Button */}
+            <div className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
+                {/* Collapse Button - Moved inside the sidebar */}
                 <button className="toggle-btn" onClick={toggleSidebar}>
-                    {isCollapsed ? '>' : '<'}
+                    <FaBars />
                 </button>
 
-                {/* Menu will be hidden when collapsed */}
-                {!isCollapsed && (
-                    <ul className="menu-list">
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/courses">Courses</Link></li>
-                        <li><Link to="/degree-plan">Degree Plan</Link></li>
-                        <li><Link to="/schedule">Schedule</Link></li>
-                        <li><Link to="/grades">Grades</Link></li>
-                        <li><Link to="/settings">Settings</Link></li>
-                        <li><Link to="/help">Help</Link></li>
-                    </ul>
-                )}
+                {/* Logo */}
+                {!isCollapsed && <div className="logo">UF Planner</div>}
+
+                {/* Menu */}
+                <ul className="menu-list">
+                    <li>
+                        <Link to="/">
+                            <FaHome className="menu-icon" />
+                            {!isCollapsed && <span className="menu-text">Home</span>}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/courses">
+                            <FaBook className="menu-icon" />
+                            {!isCollapsed && <span className="menu-text">Courses</span>}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/degree-plan">
+                            <FaGraduationCap className="menu-icon" />
+                            {!isCollapsed && <span className="menu-text">Degree Plan</span>}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/schedule">
+                            <FaCalendarAlt className="menu-icon" />
+                            {!isCollapsed && <span className="menu-text">Schedule</span>}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/grades">
+                            <FaChartBar className="menu-icon" />
+                            {!isCollapsed && <span className="menu-text">Grades</span>}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/settings">
+                            <FaCog className="menu-icon" />
+                            {!isCollapsed && <span className="menu-text">Settings</span>}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/help">
+                            <FaQuestionCircle className="menu-icon" />
+                            {!isCollapsed && <span className="menu-text">Help</span>}
+                        </Link>
+                    </li>
+                </ul>
             </div>
 
             {/* Main content */}
             <div className="content">
-                <header className="layout-header">
-                    <h1>
-                        <span className="highlight-uf">UF</span> Course Planner
-                    </h1>
-                </header>
-
-                {/* This is where the routed page content will be rendered */}
+                <HeaderBar />
+                {/* Routed page content */}
                 <main className="layout-content">
                     <Outlet />
                 </main>

@@ -7,7 +7,8 @@ import Schedule from "./Pages/Schedule";
 import Grades from "./Pages/Grades";
 import Settings from "./Pages/Settings";
 import Help from "./Pages/Help";
-import LoginPage from "./Pages/Login";
+import LoginPage from "./LoginPage/Login";
+import RegisterPage from "./LoginPage/Register";
 import Layout from "./Layout";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         {/* Login route */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         {/* Layout route that wraps all the pages */}
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />

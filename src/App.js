@@ -16,7 +16,14 @@ function App() {
   useEffect(() => {
     fetch("/.auth/me")
       .then((res) => res.json())
-      .then((data) => setIsAuthenticated(data.clientPrincipal ? true : false));
+      .then((data) => {
+        console.log("Authentication data:", data); // Log the response
+        setIsAuthenticated(data.clientPrincipal ? true : false);
+      })
+      .catch((err) => {
+        console.error("Error fetching auth data:", err); // Handle errors
+        setIsAuthenticated(false); // Default to false if there's an error
+      });
   }, []);
 
   return (

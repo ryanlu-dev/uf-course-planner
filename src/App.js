@@ -14,16 +14,24 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    fetch("/.auth/me")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Authentication data:", data); // Log the response
-        setIsAuthenticated(data.clientPrincipal ? true : false);
-      })
-      .catch((err) => {
-        console.error("Error fetching auth data:", err); // Handle errors
-        setIsAuthenticated(false); // Default to false if there's an error
-      });
+    const storedAuth = sessionStorage.getItem("isAuthenticated");
+    if (storedAuth === "true") {
+      setIsAuthenticated(true);
+    } else {
+      fetch("/.auth/me")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Authentication data:", data); // Log the response
+          const authStatus = data.clientPrincipal ? true : false;
+          sessionStorage.setItem("isAuthenticated", authStatus.toString());
+          setIsAuthenticated(authStatus);
+          console.log("isAuthenticated state: ", isAuthenticated);
+        })
+        .catch((err) => {
+          console.error("Error fetching auth data:", err); // Handle errors
+          setIsAuthenticated(false); // Default to false if there's an error
+        });
+    }
   }, []);
 
   return (

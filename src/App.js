@@ -12,29 +12,32 @@ import Layout from "./Layout";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false); // Check if auth status has been determined
 
   useEffect(() => {
     const storedAuth = sessionStorage.getItem("isAuthenticated");
     if (storedAuth === "true") {
       setIsAuthenticated(true);
+      setAuthChecked(true); // Auth check complete
     } else {
       fetch("/.auth/me")
         .then((res) => res.json())
         .then((data) => {
-          console.log("Authentication data:", data); // Log the response
           const authStatus = data.clientPrincipal ? true : false;
           sessionStorage.setItem("isAuthenticated", authStatus.toString());
           setIsAuthenticated(authStatus);
-          console.log("authStatus state: ", authStatus);
+          setAuthChecked(true); // Auth check complete
         })
         .catch((err) => {
-          console.error("Error fetching auth data:", err); // Handle errors
-          setIsAuthenticated(false); // Default to false if there's an error
+          console.error("Error fetching auth data:", err);
+          setIsAuthenticated(false);
+          setAuthChecked(true); // Ensure auth check completes even on error
         });
     }
   }, []);
 
-  console.log("isAuthenticated status: ", isAuthenticated);
+  // Render nothing until authentication status is confirmed
+  if (!authChecked) return null;
 
   return (
     <Router>

@@ -1,5 +1,25 @@
 {
-    "navigationFallback": {
-        "rewrite": "/index.html"
+    "routes": [
+        {
+            "route": "/",
+            "rewrite": "/index.html",
+            "allowedRoles": ["anonymous"]
+        },
+        {
+            "route": "/auth/*",
+            "rewrite": "/index.html",
+            "allowedRoles": ["authenticated"]
+        },
+        {
+            "route": "/login",
+            "redirect": "/.auth/login/aad",
+            "statusCode": 302
+        }
+    ],
+    "responseOverrides": {
+        "401": {
+            "statusCode": 302,
+            "redirect": "/login"
+        }
     }
 }

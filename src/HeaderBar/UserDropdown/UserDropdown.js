@@ -39,7 +39,7 @@ export const UserDropdown = () => {
                 <div className="dropdown-menu">
                     <button
                         onClick={() => {
-                            navigate("/login");
+                            navigate("/loginAad");
                             setIsDropdownOpen(false);
                         }}
                     >

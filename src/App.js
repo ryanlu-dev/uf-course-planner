@@ -25,7 +25,7 @@ function App() {
           const authStatus = data.clientPrincipal ? true : false;
           sessionStorage.setItem("isAuthenticated", authStatus.toString());
           setIsAuthenticated(authStatus);
-          console.log("isAuthenticated state: ", isAuthenticated);
+          console.log("authStatus state: ", authStatus);
         })
         .catch((err) => {
           console.error("Error fetching auth data:", err); // Handle errors
@@ -33,6 +33,8 @@ function App() {
         });
     }
   }, []);
+
+  console.log("isAuthenticated status: ", isAuthenticated);
 
   return (
     <Router>

@@ -11,7 +11,7 @@ const SplashScreen = () => {
 
             <main className="home-main">
                 <h1>
-                  <a href="/login?post_login_redirect_uri=https://youtube.com"> Please log in! </a>
+                    <a href="/login"> Please log in! </a>
                 </h1>
             </main>
 

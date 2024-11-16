@@ -13,7 +13,7 @@ const SplashScreen = () => {
                 </header>
                 <main className="splash-main">
                     <div className="login-button">
-                        <button onClick={() => { navigate("/login"); }}>
+                        <button onClick={() => { navigate("/login/"); }}>
                             Login
                         </button>
                     </div>

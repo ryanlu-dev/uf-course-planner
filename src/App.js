@@ -43,6 +43,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={isAuthenticated ? <Navigate to="/auth/" /> : <SplashScreen />} />
+        <Route path="/login" element={<Navigate to="/login" />} />
         {/* Protect all /auth routes */}
         <Route
           path="/auth"

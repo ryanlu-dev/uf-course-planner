@@ -1,7 +1,9 @@
 import React from 'react';
 import './Styles/SplashScreen.css';
+import { useNavigate } from "react-router-dom";
 
 const SplashScreen = () => {
+    const navigate = useNavigate(); 
     return (
         <div className="splash-page">
             <div className="splash-container-1">
@@ -11,7 +13,7 @@ const SplashScreen = () => {
                 </header>
                 <main className="splash-main">
                     <div className="login-button">
-                        <button onClick={() => {"location.href='/login/';"}}>
+                        <button onClick={() => { navigate("/login"); }}>
                             Login
                         </button>
                     </div>

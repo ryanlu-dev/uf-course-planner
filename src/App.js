@@ -9,6 +9,7 @@ import Grades from "./Pages/Grades";
 import Settings from "./Pages/Settings";
 import Help from "./Pages/Help";
 import Layout from "./Layout";
+import AzureLoginRedirect from "./Pages/AzureLoginRedirect";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -42,8 +43,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={isAuthenticated ? <Navigate to="/auth/" /> : <SplashScreen />} />
-        <Route path="/login" element={<Navigate to="/login" />} />
+        <Route path="/" element={isAuthenticated ? <Navigate to="/auth" /> : <SplashScreen />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/auth" /> : <AzureLoginRedirect />} />
         {/* Protect all /auth routes */}
         <Route
           path="/auth"

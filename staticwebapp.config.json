@@ -17,7 +17,7 @@
         },
         {
             "route": "/logout",
-            "redirect": "/.auth/logout",
+            "redirect": "/.auth/logout?post_logout_redirect_uri=https://www.ufcourseplanner.ryanlu.dev/",
             "statusCode": 302
         }
     ],

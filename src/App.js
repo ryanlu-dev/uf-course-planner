@@ -45,6 +45,7 @@ function App() {
       <Routes>
         <Route path="/" element={isAuthenticated ? <Navigate to="/auth" /> : <SplashScreen />} />
         <Route path="/login" element={isAuthenticated ? <Navigate to="/auth" /> : <AzureLoginRedirect />} />
+        <Route path="/logout" element={isAuthenticated ? <Navigate to="/logout" /> : <SplashScreen />} />
         {/* Protect all /auth routes */}
         <Route
           path="/auth"

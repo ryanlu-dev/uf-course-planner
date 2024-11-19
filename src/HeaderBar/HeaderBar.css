@@ -1,0 +1,31 @@
+/* src/HeaderBar/HeaderBar.css */
+
+.header-bar {
+    width: 100%;
+    background-color: #0C4DA2;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.header-title {
+    color: white;
+    margin: 0;
+    font-size: 2em;
+    flex-shrink: 0; 
+}
+
+.highlight-uf {
+    color: #FFA500; /* Accent color for 'UF' */
+}
+
+.user-dropdown {
+    margin-right: 0; /* Reset margin */
+}

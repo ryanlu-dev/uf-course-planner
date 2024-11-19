@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import SplashScreen from "./Pages/SplashScreen";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import LandingPage from "./LandingPage/LandingPage";
+import AboutPage from "./LandingPage/AboutPage/Aboutpage";
 import HomePage from "./Pages/HomePage";
 import Courses from "./Pages/Courses";
 import DegreePlan from "./Pages/DegreePlan";
@@ -11,7 +17,6 @@ import Help from "./Pages/Help";
 import Layout from "./Layout";
 import AzureLoginRedirect from "./Pages/AzureLoginRedirect";
 import AzureLogoutRedirect from "./Pages/AzureLogoutRedirect";
-
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -45,21 +50,54 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={isAuthenticated ? <Navigate to="/auth" /> : <SplashScreen />} />
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/auth" /> : <AzureLoginRedirect />} />
-        <Route path="/logout" element={isAuthenticated ? <AzureLogoutRedirect /> : <SplashScreen />} />
+        <Route
+          path="/"
+          element={isAuthenticated ? <Navigate to="/auth" /> : <LandingPage />}
+        />
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? <Navigate to="/auth" /> : <AzureLoginRedirect />
+          }
+        />
+        <Route
+          path="/logout"
+          element={isAuthenticated ? <AzureLogoutRedirect /> : <LandingPage />}
+        />
+        <Route path="/about" element={<AboutPage />} />
         {/* Protect all /auth routes */}
         <Route
           path="/auth"
           element={isAuthenticated ? <Layout /> : <Navigate to="/" />}
         >
-          <Route index element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
-          <Route path="courses" element={isAuthenticated ? <Courses /> : <Navigate to="/" />} />
-          <Route path="degree-plan" element={isAuthenticated ? <DegreePlan /> : <Navigate to="/" />} />
-          <Route path="schedule" element={isAuthenticated ? <Schedule /> : <Navigate to="/" />} />
-          <Route path="grades" element={isAuthenticated ? <Grades /> : <Navigate to="/" />} />
-          <Route path="settings" element={isAuthenticated ? <Settings /> : <Navigate to="/" />} />
-          <Route path="help" element={isAuthenticated ? <Help /> : <Navigate to="/" />} />
+          <Route
+            index
+            element={isAuthenticated ? <HomePage /> : <Navigate to="/" />}
+          />
+          <Route
+            path="courses"
+            element={isAuthenticated ? <Courses /> : <Navigate to="/" />}
+          />
+          <Route
+            path="degree-plan"
+            element={isAuthenticated ? <DegreePlan /> : <Navigate to="/" />}
+          />
+          <Route
+            path="schedule"
+            element={isAuthenticated ? <Schedule /> : <Navigate to="/" />}
+          />
+          <Route
+            path="grades"
+            element={isAuthenticated ? <Grades /> : <Navigate to="/" />}
+          />
+          <Route
+            path="settings"
+            element={isAuthenticated ? <Settings /> : <Navigate to="/" />}
+          />
+          <Route
+            path="help"
+            element={isAuthenticated ? <Help /> : <Navigate to="/" />}
+          />
         </Route>
       </Routes>
     </Router>

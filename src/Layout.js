@@ -37,43 +37,43 @@ const Layout = () => {
                 {/* Menu */}
                 <ul className="menu-list">
                     <li>
-                        <Link to="/">
+                        <Link to="/auth">
                             <FaHome className="menu-icon" />
                             {!isCollapsed && <span className="menu-text">Home</span>}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/courses">
+                        <Link to="/auth/courses">
                             <FaBook className="menu-icon" />
                             {!isCollapsed && <span className="menu-text">Courses</span>}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/degree-plan">
+                        <Link to="/auth/degree-plan">
                             <FaGraduationCap className="menu-icon" />
                             {!isCollapsed && <span className="menu-text">Degree Plan</span>}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/schedule">
+                        <Link to="/auth/schedule">
                             <FaCalendarAlt className="menu-icon" />
                             {!isCollapsed && <span className="menu-text">Schedule</span>}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/grades">
+                        <Link to="/auth/grades">
                             <FaChartBar className="menu-icon" />
                             {!isCollapsed && <span className="menu-text">Grades</span>}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/settings">
+                        <Link to="/auth/settings">
                             <FaCog className="menu-icon" />
                             {!isCollapsed && <span className="menu-text">Settings</span>}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/help">
+                        <Link to="/auth/help">
                             <FaQuestionCircle className="menu-icon" />
                             {!isCollapsed && <span className="menu-text">Help</span>}
                         </Link>

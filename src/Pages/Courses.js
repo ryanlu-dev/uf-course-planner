@@ -15,13 +15,12 @@ function Courses() {
     const fetchAllCourses = async () => {
         setLoading(true);
         setError(null);
-        let endpoint = '/data-api/rest/courses';
         let hasNextPage = true;
 
         try {
             let accumulatedCourses = [];
             while (hasNextPage) {
-                const response = await fetch(endpoint);
+                const response = await fetch('/data-api/rest/courses');
                 const data = await response.json();
                 console.log('Fetched data:', data);
 

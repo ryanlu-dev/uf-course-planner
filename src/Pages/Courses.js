@@ -11,13 +11,13 @@ function Courses() {
 
     const [currentPage, setCurrentPage] = useState(1);
     const coursesPerPage = 10;
+    const BASE_URL = 'https://ufcourseplanner.ryanlu.dev/data-api/rest/courses';
 
     const fetchAllCourses = async () => {
         setLoading(true);
         setError(null);
-        let endpoint = '/data-api/rest/courses/';
         let hasNextPage = true;
-
+        let endpoint = BASE_URL;
         try {
             let accumulatedCourses = [];
             while (hasNextPage) {
@@ -28,7 +28,9 @@ function Courses() {
                 if (Array.isArray(data.value)) {
                     accumulatedCourses = [...accumulatedCourses, ...data.value];
                     if (data.nextLink) {
-                        endpoint = data.nextLink;
+                        const nexturl = new URL(data.nextLink);
+                        const afterParam = nexturl.searchParams.get('$after');
+                        endpoint = `${BASE_URL}?$after=${afterParam}`;
                     } else {
                         hasNextPage = false;
                     }

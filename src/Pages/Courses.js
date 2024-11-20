@@ -16,11 +16,11 @@ function Courses() {
         setLoading(true);
         setError(null);
         let hasNextPage = true;
-
+        let endpoint = 'http://localhost:5000/rest/courses';
         try {
             let accumulatedCourses = [];
             while (hasNextPage) {
-                const response = await fetch('/data-api/rest/courses');
+                const response = await fetch(endpoint);
                 const data = await response.json();
                 console.log('Fetched data:', data);
 

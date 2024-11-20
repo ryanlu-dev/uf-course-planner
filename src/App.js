@@ -14,6 +14,8 @@ import AzureLogoutRedirect from "./Pages/AzureLogoutRedirect";
 
 
 function App() {
+
+/*
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false); // Check if auth status has been determined
 
@@ -41,6 +43,9 @@ function App() {
 
   // Render nothing until authentication status is confirmed
   if (!authChecked) return null;
+  */
+
+    const isAuthenticated = true;
 
   return (
     <Router>

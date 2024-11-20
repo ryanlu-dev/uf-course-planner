@@ -15,8 +15,7 @@ function Courses() {
     const fetchAllCourses = async () => {
         setLoading(true);
         setError(null);
-        let endpoint = `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000'
-            }/rest/courses`;
+        let endpoint = '/data-api/rest/courses';
         let hasNextPage = true;
 
         try {
@@ -212,3 +211,6 @@ function Courses() {
 }
 
 export default Courses;
+
+
+//dab start --config staticwebapp.database.config.json

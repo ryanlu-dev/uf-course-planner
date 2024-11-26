@@ -18,7 +18,7 @@
       "path": "/graphql"
     },
     "host": {
-      "mode": "production",
+      "mode": "development",
       "cors": {
         "origins": ["http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/*", "https://delightful-tree-05363c61e.5.azurestaticapps.net", "http://localhost:3000"],
         "allow-credentials": false

@@ -28,8 +28,9 @@ function App() {
         .then((data) => {
           const authStatus = data.clientPrincipal ? true : false;
           sessionStorage.setItem("isAuthenticated", authStatus.toString());
-          if (authStatus && data.clientPrincipal.azure_id) {
-            sessionStorage.setItem("azure_id", data.clientPrincipal.azure_id); // Store Azure ID
+          if (authStatus) {
+            sessionStorage.setItem("azure_id", data.clientPrincipal.userId); // Store Azure ID
+            sessionStorage.setItem("email", data.clientPrincipal.userDetails); // Store user email
           }
           setIsAuthenticated(authStatus);
           setAuthChecked(true); // Auth check complete

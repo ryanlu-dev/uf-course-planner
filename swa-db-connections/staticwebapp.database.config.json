@@ -30,7 +30,7 @@
   },
   "entities": {
     "courses": {
-      "source": "courses",
+      "source": "dbo.courses",
       "permissions": [
         {
           "actions": ["*"],
@@ -39,7 +39,7 @@
       ]
     },
     "user_courses": {
-      "source": "user_courses",
+      "source": "dbo.user_courses",
       "permissions": [
         {
           "actions": ["*"],
@@ -48,7 +48,7 @@
       ]
     },
     "departments": {
-      "source": "departments",
+      "source": "dbo.departments",
       "permissions": [
         {
           "actions": ["*"],
@@ -57,7 +57,7 @@
       ]
     },
     "majors": {
-      "source": "majors",
+      "source": "dbo.majors",
       "permissions": [
         {
           "actions": ["*"],
@@ -66,7 +66,7 @@
       ]
     },
     "model_semester_plans": {
-      "source": "model_semester_plans",
+      "source": "dbo.model_semester_plans",
       "permissions": [
         {
           "actions": ["*"],
@@ -75,7 +75,7 @@
       ]
     },
     "sections": {
-      "source": "sections",
+      "source": "dbo.sections",
       "permissions": [
         {
           "actions": ["*"],
@@ -84,7 +84,7 @@
       ]
     },
     "users": {
-      "source": "users",
+      "source": "dbo.users",
       "permissions": [
         {
           "actions": ["*"],

@@ -20,7 +20,7 @@
     "host": {
       "mode": "development",
       "cors": {
-        "origins": ["http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/*", "https://delightful-tree-05363c61e.5.azurestaticapps.net", "http://localhost:3000"],
+        "origins": ["http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/auth/settings", "https://delightful-tree-05363c61e.5.azurestaticapps.net", "http://localhost:3000"],
         "allow-credentials": false
       },
       "authentication": {
@@ -30,7 +30,7 @@
   },
   "entities": {
     "courses": {
-      "source": "dbo.courses",
+      "source": "courses",
       "permissions": [
         {
           "actions": ["*"],
@@ -39,7 +39,7 @@
       ]
     },
     "user_courses": {
-      "source": "dbo.user_courses",
+      "source": "user_courses",
       "permissions": [
         {
           "actions": ["*"],
@@ -48,7 +48,7 @@
       ]
     },
     "departments": {
-      "source": "dbo.departments",
+      "source": "departments",
       "permissions": [
         {
           "actions": ["*"],
@@ -57,7 +57,7 @@
       ]
     },
     "majors": {
-      "source": "dbo.majors",
+      "source": "majors",
       "permissions": [
         {
           "actions": ["*"],
@@ -66,7 +66,7 @@
       ]
     },
     "model_semester_plans": {
-      "source": "dbo.model_semester_plans",
+      "source": "model_semester_plans",
       "permissions": [
         {
           "actions": ["*"],
@@ -75,7 +75,7 @@
       ]
     },
     "sections": {
-      "source": "dbo.sections",
+      "source": "sections",
       "permissions": [
         {
           "actions": ["*"],
@@ -84,7 +84,7 @@
       ]
     },
     "users": {
-      "source": "dbo.users",
+      "source": "users",
       "permissions": [
         {
           "actions": ["*"],

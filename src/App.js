@@ -8,6 +8,7 @@ import Schedule from "./Pages/Schedule";
 import Grades from "./Pages/Grades";
 import Settings from "./Pages/Settings";
 import Help from "./Pages/Help";
+import Profile from "./Pages/Profile"
 import Layout from "./Layout";
 import AzureLoginRedirect from "./Pages/AzureLoginRedirect";
 import AzureLogoutRedirect from "./Pages/AzureLogoutRedirect";
@@ -18,7 +19,10 @@ function App() {
   const [authChecked, setAuthChecked] = useState(false); // Check if auth status has been determined
 
   useEffect(() => {
-    const storedAuth = sessionStorage.getItem("isAuthenticated");
+    // Mock authentication for local testing
+    setIsAuthenticated(true); // Directly set authenticated for testing
+    setAuthChecked(true); // Skip the actual auth check for now
+    /*const storedAuth = sessionStorage.getItem("isAuthenticated");
     if (storedAuth === "true") {
       setIsAuthenticated(true);
       setAuthChecked(true); // Auth check complete
@@ -36,7 +40,7 @@ function App() {
           setIsAuthenticated(false);
           setAuthChecked(true); // Ensure auth check completes even on error
         });
-    }
+    }*/
   }, []);
 
   // Render nothing until authentication status is confirmed
@@ -60,6 +64,7 @@ function App() {
           <Route path="grades" element={isAuthenticated ? <Grades /> : <Navigate to="/" />} />
           <Route path="settings" element={isAuthenticated ? <Settings /> : <Navigate to="/" />} />
           <Route path="help" element={isAuthenticated ? <Help /> : <Navigate to="/" />} />
+          <Route path="profile" element={isAuthenticated ? <Profile /> : <Navigate to="/" />} />
         </Route>
       </Routes>
     </Router>

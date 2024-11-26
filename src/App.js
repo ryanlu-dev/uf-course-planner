@@ -19,6 +19,7 @@ function App() {
 
   useEffect(() => {
     const storedAuth = sessionStorage.getItem("isAuthenticated");
+    const storedAzureId = sessionStorage.getItem("azure_id");
     if (storedAuth === "true") {
       setIsAuthenticated(true);
       setAuthChecked(true); // Auth check complete
@@ -28,6 +29,9 @@ function App() {
         .then((data) => {
           const authStatus = data.clientPrincipal ? true : false;
           sessionStorage.setItem("isAuthenticated", authStatus.toString());
+          if (authStatus && data.clientPrincipal.azure_id) {
+            sessionStorage.setItem("azure_id", data.clientPrincipal.azure_id); // Store Azure ID
+          }
           setIsAuthenticated(authStatus);
           setAuthChecked(true); // Auth check complete
         })

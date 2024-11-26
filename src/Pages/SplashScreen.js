@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Styles/SplashScreen.css';
 import { useNavigate } from "react-router-dom";
 
 const SplashScreen = () => {
-    const [data, setData] = useState('');
-    useEffect(() => {
-        (async function () {
-            const { text } = await( await fetch(`/api/message`)).json();
-            setData(text);
-        })();
-    });
+    async function fetchUsers() {
+        const response = await fetch('/api/getUsers');
+        if (!response.ok) {
+            console.error('Failed to fetch users:', response.statusText);
+            return;
+        }
+        const users = await response.json();
+        console.table(users);
+    }
+    fetchUsers();
+
     const navigate = useNavigate(); 
     return (
         <div className="splash-page">
-            {data}
             <div className="splash-container-1">
                 <header className="splash-header">
                     <h1>Welcome to the <span className="highlight">UF Course Planner</span></h1>

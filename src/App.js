@@ -19,7 +19,6 @@ function App() {
 
   useEffect(() => {
     const storedAuth = sessionStorage.getItem("isAuthenticated");
-    const storedAzureId = sessionStorage.getItem("azure_id");
     if (storedAuth === "true") {
       setIsAuthenticated(true);
       setAuthChecked(true); // Auth check complete

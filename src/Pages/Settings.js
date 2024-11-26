@@ -2,6 +2,7 @@ import React from 'react';
 import './Styles/Settings.css'; // Optional for custom styles
 
 const Settings = () => {
+    /*
     async function getUserInfo(azure_id) {
         const endpoint = `/data-api/rest/users/azure_id`;
         const response = await fetch(`${endpoint}/${azure_id}`);
@@ -21,10 +22,6 @@ const Settings = () => {
     const userInfo = getUserInfo(azure_id);
     const majorInfo = getMajorInfo(userInfo.major_id);
 
-    return (
-        <div>
-            <h2>Settings</h2>
-            <p>Here you can view and manage your settings.</p>
             <table>
                 <tr>
                     <th>Name</th>
@@ -39,6 +36,26 @@ const Settings = () => {
                     <td>{userInfo.current_semester}</td>
                 </tr>
             </table>
+
+
+    */
+
+    async function list() {
+        const endpoint = "/data-api/rest/users";
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        console.table(data.value);
+    }
+    
+    return (
+        <div>
+            <h2>Settings</h2>
+            <p>Here you can view and manage your settings.</p>
+            
+            <div>
+                <button id="list" onclick="list()">List</button>
+            </div>
+            
         </div>
     );
 };

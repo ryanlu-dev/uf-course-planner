@@ -47,6 +47,7 @@ const Settings = () => {
         console.table(data.value);
     }
     
+    list();
     return (
         <div>
             <h2>Settings</h2>

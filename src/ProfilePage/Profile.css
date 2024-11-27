@@ -15,6 +15,41 @@
   text-align: center;
 }
 
+.profile-page table {
+  width: 100%;
+  max-width: 800px;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-page table th,
+.profile-page table td {
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.profile-page table thead th {
+  background-color: #0c4da2;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.profile-page table tbody tr:hover {
+  background-color: #f0f8ff; /* Light blue hover effect for rows */
+}
+
+.profile-page table tbody tr:last-child td {
+  border-bottom: none;
+}
+
 .profile-form {
   width: 100%;
   max-width: 500px;
@@ -55,7 +90,7 @@
 .courseload-options {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Adds spacing between each radio button */
+  gap: 10px;
 }
 
 .courseload-options label {
@@ -78,8 +113,8 @@
 }
 
 .courseload-options input[type="radio"] {
-  margin-right: 10px; /* Adds space between the radio button and label text */
-  accent-color: #0c4da2; /* Matches the primary color of the form */
+  margin-right: 10px;
+  accent-color: #0c4da2;
   width: 20px;
   height: 20px;
   cursor: pointer;

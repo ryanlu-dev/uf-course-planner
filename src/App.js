@@ -14,7 +14,7 @@ import Schedule from "./Pages/Schedule";
 import Grades from "./Pages/Grades";
 import Settings from "./Pages/Settings";
 import Help from "./Pages/Help";
-import Profile from "./Profile Page/Profile";
+import Profile from "./ProfilePage/Profile";
 import Layout from "./Layout";
 import AzureLoginRedirect from "./Pages/AzureLoginRedirect";
 import AzureLogoutRedirect from "./Pages/AzureLogoutRedirect";

@@ -5,7 +5,8 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import SplashScreen from "./Pages/SplashScreen";
+import LandingPage from "./LandingPage/LandingPage";
+import AboutPage from "./LandingPage/AboutPage/Aboutpage";
 import HomePage from "./Pages/HomePage";
 import Courses from "./Pages/Courses";
 import DegreePlan from "./Pages/DegreePlan";
@@ -55,7 +56,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={isAuthenticated ? <Navigate to="/auth" /> : <SplashScreen />}
+          element={isAuthenticated ? <Navigate to="/auth" /> : <LandingPage />}
         />
         <Route
           path="/login"
@@ -65,8 +66,9 @@ function App() {
         />
         <Route
           path="/logout"
-          element={isAuthenticated ? <AzureLogoutRedirect /> : <SplashScreen />}
+          element={isAuthenticated ? <AzureLogoutRedirect /> : <LandingPage />}
         />
+        <Route path="/about" element={<AboutPage />} />
         {/* Protect all /auth routes */}
         <Route
           path="/auth"

@@ -17,8 +17,6 @@ const LandingPage = () => {
         </div>
         <nav className="nav-links">
           <Link to="/about">How it Works</Link>
-          <a href="#">Temp</a>
-          <a href="#">Temp</a>
           <a
             href="https://github.com/bquintopng/uf-course-planner"
             target="_blank"
@@ -55,7 +53,7 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="demo-image">
-          <img src={`./demoimg.png`} alt="UF Course Planner demo" />
+          <img src="demoimg.png" alt="UF Course Planner demo" />
         </div>
       </main>
 
@@ -87,7 +85,10 @@ const LandingPage = () => {
           ].map((member, index) => (
             <div className="team-card" key={index}>
               <div className="team-photo">
-                <img src={`photo`} alt={`${member.name} photo`} />
+                <img
+                  src={"pfps/" + member.name + ".jpeg"}
+                  alt={`${member.name}`}
+                />
               </div>
               <h3>{member.name}</h3>
               <p>{member.title}</p>

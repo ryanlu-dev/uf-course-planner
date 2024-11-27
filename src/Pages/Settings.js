@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './Styles/Settings.css';
 
 const Settings = () => {
     const azure_id = sessionStorage.getItem("azure_id");
     const email = sessionStorage.getItem("email");
 
-    // State to store user info
     const [userInfo, setUserInfo] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); // Loading state
+    const [isLoading, setIsLoading] = useState(true);
 
-    async function fetchUserInfo(a_id) {
+    const fetchUserInfo = useCallback(async (a_id) => {
         try {
             const response = await fetch(`/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`);
             if (!response.ok) {
@@ -17,29 +16,25 @@ const Settings = () => {
                 return;
             }
             const data = await response.json();
-            setUserInfo(data); // Set the fetched data
-            console.log(azure_id);
-            console.table(data);
-            setIsLoading(false); // Stop loading
+            setUserInfo(data);
         } catch (error) {
             console.error('Error fetching user info:', error);
-            setIsLoading(false); // Stop loading even if there’s an error
+        } finally {
+            setIsLoading(false);
         }
-    }
+    }, []); // Dependencies are empty because it doesn't rely on external variables
 
-    // Use useEffect to fetch data when the component mounts
     useEffect(() => {
         if (azure_id) {
             fetchUserInfo(azure_id);
         }
-    }, [azure_id]);
+    }, [azure_id, fetchUserInfo]); // Include fetchUserInfo and azure_id as dependencies
 
     return (
         <div>
             <h2>Settings</h2>
             <p>Here you can view and manage your settings.</p>
 
-            {/* Show a loading message while fetching data */}
             {isLoading ? (
                 <p>Loading user information...</p>
             ) : userInfo ? (

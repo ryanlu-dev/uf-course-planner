@@ -12,7 +12,7 @@
         },
         {
             "route": "/login",
-            "redirect": "/.auth/login/aad",
+            "redirect": "/.auth/login/aad?prompt=select_account",
             "statusCode": 302
         },
         {

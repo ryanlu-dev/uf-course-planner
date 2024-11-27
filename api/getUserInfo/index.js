@@ -9,7 +9,7 @@ module.exports = async function (context, req) {
         const result = await client.query(`SELECT users.name AS user_name, majors.name AS major_name, colleges.name AS college_name, users.current_semester FROM users LEFT JOIN majors ON users.major_id = majors.major_id LEFT JOIN colleges ON majors.college_id = colleges.college_id WHERE users.azure_id = '${a_id}'`);
         context.res = {
             status: 200,
-            body: result.rows,
+            body: result.rows[0] || {},
         };
     } catch (error) {
         context.log('Error connecting to the database:', error);

@@ -51,7 +51,6 @@ const Settings = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>{userInfo}</tr>
                         <tr>
                             <td>{userInfo.user_name}</td>
                             <td>{email}</td>

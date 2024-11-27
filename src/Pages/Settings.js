@@ -17,7 +17,6 @@ const Settings = () => {
             }
             const data = await response.json();
             setUserInfo(data);
-            console.table(data);
         } catch (error) {
             console.error('Error fetching user info:', error);
         } finally {
@@ -30,6 +29,8 @@ const Settings = () => {
             fetchUserInfo(azure_id);
         }
     }, [azure_id, fetchUserInfo]);
+
+
 
     return (
         <div>
@@ -50,6 +51,7 @@ const Settings = () => {
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>{userInfo}</tr>
                         <tr>
                             <td>{userInfo.user_name}</td>
                             <td>{email}</td>

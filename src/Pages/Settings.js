@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Styles/Settings.css'; // Optional for custom styles
+import './Styles/Settings.css';
 
 const Settings = () => {
     const azure_id = sessionStorage.getItem("azure_id");
@@ -18,6 +18,8 @@ const Settings = () => {
             }
             const data = await response.json();
             setUserInfo(data); // Set the fetched data
+            console.log(azure_id);
+            console.table(data);
             setIsLoading(false); // Stop loading
         } catch (error) {
             console.error('Error fetching user info:', error);

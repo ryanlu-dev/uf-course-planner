@@ -3,17 +3,6 @@ import './Styles/SplashScreen.css';
 import { useNavigate } from "react-router-dom";
 
 const SplashScreen = () => {
-    async function fetchUsers() {
-        const response = await fetch('/api/getUsers');
-        if (!response.ok) {
-            console.error('Failed to fetch users:', response.statusText);
-            return;
-        }
-        const users = await response.json();
-        console.table(users);
-    }
-    fetchUsers();
-
     const navigate = useNavigate(); 
     return (
         <div className="splash-page">

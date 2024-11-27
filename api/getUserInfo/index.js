@@ -1,12 +1,12 @@
 const { Client } = require('pg');
 const fs = require('fs');
 
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 module.exports = async function (context, req) {
     var client = new Client({host:"ufcourseplannerdb.postgres.database.azure.com", user:"bytesquad", password:process.env.DB_PASS, database:"ufcourseplanner", port:5432, ssl:{ca:fs.readFileSync("mergedcert.pem").toString()}});
     try {
         await client.connect();
-        const result = await client.query('SELECT * FROM users');
+        const a_id = req.query.azure_id;
+        const result = await client.query(`SELECT name, major_id, current_semester FROM users WHERE azure_id = '${a_id}'`);
         context.res = {
             status: 200,
             body: result.rows,

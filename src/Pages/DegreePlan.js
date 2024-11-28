@@ -30,6 +30,12 @@ const DegreePlan = () => {
         }
     }, [azure_id, fetchModelSemesterPlan]);
 
+    DOMPurify.addHook('beforeSanitizeElements', (node) => {
+        if (node.tagName === 'SUP') {
+          node.parentNode.removeChild(node); // Remove the <sup> tag and its contents
+        }
+    });
+
     return (
         <div className='degree-plan-page'>
             {isLoading ? (
@@ -37,7 +43,7 @@ const DegreePlan = () => {
             ) : modelSemesterPlan ? (
                 <div>
                     <h2>Major: {modelSemesterPlan.major_name}, current semester: {modelSemesterPlan.current_semester}</h2>
-                    <div dangerouslySetInnerHTML = {{__html: DOMPurify.sanitize(modelSemesterPlan.html, {FORBID_ATTR: ['href'], FORBID_TAGS: ['sup']})}}/>
+                    <div dangerouslySetInnerHTML = {{__html: DOMPurify.sanitize(modelSemesterPlan.html, {FORBID_ATTR: ['href']})}}/>
                 </div>
             ) : (
                 <p>Failed to load model semester plan.</p>

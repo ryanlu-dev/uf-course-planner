@@ -31,12 +31,12 @@ const DegreePlan = () => {
     }, [azure_id, fetchModelSemesterPlan]);
 
     return (
-        <div id='model-semester-plan-container'>
+        <div className='degree-plan-page'>
             {isLoading ? (
                 <p>Loading model semester plan...</p>
             ) : modelSemesterPlan ? (
-                <div id ='model-semester-plan'>
-                    <h1>Major: {modelSemesterPlan.major_name}, current semester: {modelSemesterPlan.current_semester}</h1>
+                <div>
+                    <h2>Major: {modelSemesterPlan.major_name}, current semester: {modelSemesterPlan.current_semester}</h2>
                     <div dangerouslySetInnerHTML = {{__html: DOMPurify.sanitize(modelSemesterPlan.html)}}/>
                 </div>
             ) : (

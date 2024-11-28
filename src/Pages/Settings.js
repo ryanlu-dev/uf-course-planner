@@ -30,8 +30,6 @@ const Settings = () => {
         }
     }, [azure_id, fetchUserInfo]);
 
-
-
     return (
         <div>
             <h2>Settings</h2>

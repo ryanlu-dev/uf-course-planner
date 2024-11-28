@@ -31,8 +31,8 @@ const DegreePlan = () => {
     }, [azure_id, fetchModelSemesterPlan]);
 
     DOMPurify.addHook('beforeSanitizeElements', (node) => {
-        if (node.tagName === 'SUP' && node.parentNode) {
-            node.parentNode.removeChild(node);
+        if (node.tagName === 'SUP') {
+            node.remove();
         }
     });
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import debounce from 'lodash/debounce';
 import './Styles/Courses.css'; // Custom styling
 
 function Courses() {
     // State variables for course code search
     const [codeSearchTerm, setCodeSearchTerm] = useState('');
+    const [debouncedCodeSearchTerm, setDebouncedCodeSearchTerm] = useState(codeSearchTerm);
 
     // State variables for fetched data
     const [allCourses, setAllCourses] = useState([]);     // All fetched courses
@@ -131,7 +131,7 @@ function Courses() {
     /**
      * Fetch all courses and sections, then merge them based on course_code.
      */
-    const fetchAllData = async () => {
+    const fetchAllData = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -188,7 +188,7 @@ function Courses() {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     /**
      * Handle selection of a course.
@@ -239,13 +239,6 @@ function Courses() {
     };
 
     /**
-     * Handle selection from the dropdown
-     */
-    const handleDropdownSelect = (code) => {
-        handleSelectCourse(code);
-    };
-
-    /**
      * Handle exporting courses to the calendar.
      */
     const handleExportToCalendar = () => {
@@ -273,15 +266,6 @@ function Courses() {
         }
     };
 
-
-
-    /**
-     * Helper function to determine if two time ranges overlap.
-     */
-    const timesOverlap = (start1, end1, start2, end2) => {
-        return start1.isBefore(end2) && start2.isBefore(end1);
-    };
-
     /**
      * Create a Map for courses to enable quick lookup by course_code.
      */
@@ -304,39 +288,43 @@ function Courses() {
     }, [allCourses]);
 
     /**
-     * Debounced search handler to optimize performance.
-     */
-    const debouncedSetCodeSearchTerm = useCallback(
-        debounce((value) => {
-            setCodeSearchTerm(value);
-        }, 300), // 300ms delay
-        []
-    );
-
-    /**
-     * Handle changes in the search input with debounce.
+     * Handle changes in the search input.
      */
     const handleSearchChange = (e) => {
         const value = e.target.value;
-        debouncedSetCodeSearchTerm(value);
+        setCodeSearchTerm(value); // Update immediately
     };
+
+    /**
+     * Debounce the search term for expensive operations.
+     */
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedCodeSearchTerm(codeSearchTerm);
+        }, 300); // 300ms delay
+
+        // Cleanup function
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [codeSearchTerm]);
 
     /**
      * Filter course codes based on user input for the dropdown.
      */
     const filteredCodes = useMemo(() => {
-        if (codeSearchTerm.trim() === '' || uniqueCourseCodes.length === 0) return [];
+        if (debouncedCodeSearchTerm.trim() === '' || uniqueCourseCodes.length === 0) return [];
         return uniqueCourseCodes
-            .filter(code => code.includes(codeSearchTerm.trim().toUpperCase()))
+            .filter(code => code.includes(debouncedCodeSearchTerm.trim().toUpperCase()))
             .slice(0, 10); // Limit to 10 suggestions
-    }, [codeSearchTerm, uniqueCourseCodes]);
+    }, [debouncedCodeSearchTerm, uniqueCourseCodes]);
 
     /**
      * Filter sections based on selected courses or course code search term.
      */
     useEffect(() => {
         // If no selected courses and search input is empty, do not display any sections
-        if (selectedCourses.length === 0 && codeSearchTerm.trim() === '') {
+        if (selectedCourses.length === 0 && debouncedCodeSearchTerm.trim() === '') {
             setSections([]);
             return;
         }
@@ -354,7 +342,7 @@ function Courses() {
             );
         } else {
             // Else, filter by course code search term
-            const searchTermUpper = codeSearchTerm.trim().toUpperCase();
+            const searchTermUpper = debouncedCodeSearchTerm.trim().toUpperCase();
 
             filteredSections = allSections.filter(section =>
                 section.course_code &&
@@ -388,7 +376,7 @@ function Courses() {
         });
 
         setSections(mergedFilteredSections);
-    }, [codeSearchTerm, selectedCourses, allSections, coursesMap]);
+    }, [debouncedCodeSearchTerm, selectedCourses, allSections, coursesMap]);
 
     /**
      * Calculate the sections to display on the current page.
@@ -408,7 +396,7 @@ function Courses() {
         if (storedSignedUpSections) {
             setSignedUpSections(JSON.parse(storedSignedUpSections));
         }
-    }, []); // Empty dependency array ensures this runs once on mount
+    }, [fetchAllData]); // Include fetchAllData in the dependency array
 
     return (
         <div className="courses-page">
@@ -437,14 +425,14 @@ function Courses() {
                                     {filteredCodes.map((code) => (
                                         <li
                                             key={code}
-                                            onClick={() => handleDropdownSelect(code)}
+                                            onClick={() => handleSelectCourse(code)}
                                             className="code-dropdown-item"
                                             role="option"
                                             aria-selected={code === codeSearchTerm.trim().toUpperCase()}
                                             tabIndex="0"
                                             onKeyDown={(e) => {
                                                 if (e.key === 'Enter') {
-                                                    handleDropdownSelect(code);
+                                                    handleSelectCourse(code);
                                                 }
                                             }}
                                         >
@@ -558,7 +546,7 @@ function Courses() {
                     {/* No sections found */}
                     {!loading &&
                         !error &&
-                        (selectedCourses.length > 0 || codeSearchTerm.trim() !== '') &&
+                        (selectedCourses.length > 0 || debouncedCodeSearchTerm.trim() !== '') &&
                         sections.length === 0 && (
                             <p>No sections found for the selected course code(s).</p>
                         )}

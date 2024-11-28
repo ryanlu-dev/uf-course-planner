@@ -35,7 +35,6 @@ yarn-error.log*
 *.sln.docstates
 
 # User-specific files (VS Code)
-.vscode/
 
 # Mono Auto Generated Files
 mono_crash.*

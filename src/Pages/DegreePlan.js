@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import DOMPurify from 'dompurify'
 
 import './Styles/DegreePlan.css';
@@ -37,9 +37,7 @@ const DegreePlan = () => {
             ) : modelSemesterPlan ? (
                 <div id ='model-semester-plan'>
                     <h1>Major: {modelSemesterPlan.major_name}, current semester: {modelSemesterPlan.current_semester}</h1>
-                    <div dangerouslySetInnerHTML = {sanitizedData = () => ({
-                                                        __html: DOMPurify.sanitize(modelSemesterPlan.html)
-                                                    })} />
+                    <div dangerouslySetInnerHTML = {() => ({__html: DOMPurify.sanitize(modelSemesterPlan.html)})} />
                 </div>
             ) : (
                 <p>Failed to load model semester plan.</p>

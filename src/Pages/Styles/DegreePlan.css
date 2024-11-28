@@ -18,14 +18,6 @@
     margin-bottom: 40px;
 }
 
-    .plangridterm th {
-        background-color: #0C4DA2;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
-
 .sc_plangrid {
     width: 100%;
     border-collapse: collapse;
@@ -39,9 +31,11 @@
     }
 
     .sc_plangrid th {
-        background-color: #e9ecef;
-        font-weight: bold;
-        text-align: center;
+        background-color: #0C4DA2;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
     }
 
     .sc_plangrid tr:nth-child(even) td {

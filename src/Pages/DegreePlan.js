@@ -37,7 +37,7 @@ const DegreePlan = () => {
             ) : modelSemesterPlan ? (
                 <div>
                     <h2>Major: {modelSemesterPlan.major_name}, current semester: {modelSemesterPlan.current_semester}</h2>
-                    <div dangerouslySetInnerHTML = {{__html: DOMPurify.sanitize(modelSemesterPlan.html)}}/>
+                    <div dangerouslySetInnerHTML = {{__html: DOMPurify.sanitize(modelSemesterPlan.html, {FORBID_ATTR: ['href']})}}/>
                 </div>
             ) : (
                 <p>Failed to load model semester plan.</p>

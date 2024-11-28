@@ -3,6 +3,7 @@
 /* Layout Container */
 .layout-container {
     display: flex;
+    flex-direction: row;
     min-height: 100vh;
 }
 
@@ -14,11 +15,12 @@
     display: flex;
     flex-direction: column;
     transition: width 0.3s;
-    position: fixed; 
+    position: fixed;
     top: 60px; /* Positioned below the HeaderBar */
     left: 0;
-    height: 100%;
+    height: calc(100% - 60px); /* Adjust height */
     overflow-y: auto; /* Add vertical scrolling if needed */
+    z-index: 1000; /* Ensure sidebar is above other elements */
 }
 
     .sidebar.collapsed {
@@ -87,7 +89,7 @@
         }
 
             .menu-list li a:hover {
-                background-color: #094080; 
+                background-color: #094080;
             }
 
 .menu-icon {
@@ -109,12 +111,14 @@
     display: flex;
     flex-direction: column;
     margin-left: 250px; /* Adjusted for the fixed sidebar */
+    transition: margin-left 0.3s;
 }
 
 .sidebar.collapsed ~ .content {
     margin-left: 80px; /* Adjust for collapsed sidebar width */
 }
 
+/* HeaderBar and Footer */
 .layout-content {
     flex-grow: 1;
     padding: 20px;
@@ -136,8 +140,8 @@
     .sidebar {
         position: fixed;
         left: -250px;
-        top: 80px; /* Adjust top position */
-        height: calc(100% - 80px); /* Adjust height */
+        top: 60px; /* Adjust top position */
+        height: calc(100% - 60px); /* Adjust height */
         z-index: 1000;
         transition: left 0.3s;
     }

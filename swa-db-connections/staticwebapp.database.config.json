@@ -20,7 +20,7 @@
     "host": {
       "mode": "production",
       "cors": {
-        "origins": ["http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/", "https://delightful-tree-05363c61e.5.azurestaticapps.net", "http://localhost:3000"],
+        "origins": [ "http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/", "https://delightful-tree-05363c61e.5.azurestaticapps.net", "http://localhost:3000" ],
         "allow-credentials": false
       },
       "authentication": {
@@ -33,7 +33,7 @@
       "source": "courses",
       "permissions": [
         {
-          "actions": ["*"],
+          "actions": [ "*" ],
           "role": "anonymous"
         }
       ]
@@ -42,7 +42,7 @@
       "source": "user_courses",
       "permissions": [
         {
-          "actions": ["*"],
+          "actions": [ "*" ],
           "role": "anonymous"
         }
       ]
@@ -51,7 +51,7 @@
       "source": "departments",
       "permissions": [
         {
-          "actions": ["*"],
+          "actions": [ "*" ],
           "role": "anonymous"
         }
       ]
@@ -60,16 +60,16 @@
       "source": "majors",
       "permissions": [
         {
-          "actions": ["*"],
+          "actions": [ "*" ],
           "role": "anonymous"
         }
       ]
     },
-    "major_courses": {
-      "source": "major_courses",
+    "model_semester_plans": {
+      "source": "model_semester_plans",
       "permissions": [
         {
-          "actions": ["*"],
+          "actions": [ "*" ],
           "role": "anonymous"
         }
       ]
@@ -78,7 +78,7 @@
       "source": "sections",
       "permissions": [
         {
-          "actions": ["*"],
+          "actions": [ "*" ],
           "role": "anonymous"
         }
       ]
@@ -87,7 +87,16 @@
       "source": "users",
       "permissions": [
         {
-          "actions": ["*"],
+          "actions": [ "*" ],
+          "role": "anonymous"
+        }
+      ]
+    },
+    "colleges": {
+      "source": "colleges",
+      "permissions": [
+        {
+          "actions": [ "*" ],
           "role": "anonymous"
         }
       ]

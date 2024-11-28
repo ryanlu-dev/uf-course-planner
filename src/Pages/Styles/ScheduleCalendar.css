@@ -1,53 +1,88 @@
-/* src/Styles/ScheduleCalendar.css */
+/* src/components/ScheduleCalendar.css */
 
-.schedule-calendar {
-    padding: 20px;
-    background-color: #F5F5F5;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Container styling */
+.schedule-calendar-container {
+    flex: 1; /* Allow the container to grow and fill available space */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-    .schedule-calendar h1 {
-        color: #0C4DA2;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-/* Override react-big-calendar styles */
-.rbc-calendar {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.rbc-toolbar {
-    margin-bottom: 20px;
-}
-
-    .rbc-toolbar button {
-        background-color: #0C4DA2;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        margin: 0 5px;
-        border-radius: 5px;
-    }
-
-        .rbc-toolbar button:hover {
-            background-color: #094080;
-        }
-
+/* Calendar event styling */
 .rbc-event {
-    background-color: #dd661e;
+    background-color: #3174ad;
+    color: white;
     border: none;
-    border-radius: 5px;
-    padding: 2px 5px;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 0.75em; /* Reduced font size for compactness */
+    line-height: 1.2em; /* Adjust line height for better fit */
 }
 
     .rbc-event:hover {
-        background-color: #e59400;
+        background-color: #265a88;
     }
 
-.rbc-today {
-    background-color: #e3f2fd;
+/* Modal styles */
+.event-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure the modal overlays other elements */
+}
+
+.event-modal {
+    background: #fff;
+    padding: 20px;
+    max-width: 500px;
+    width: 90%;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    font-size: 0.9em; /* Slightly smaller font */
+}
+
+    .event-modal h2 {
+        margin-top: 0;
+        font-size: 1.2em;
+    }
+
+    .event-modal p {
+        margin: 10px 0;
+    }
+
+    .event-modal button {
+        margin-top: 20px;
+        padding: 8px 16px;
+        background-color: #3174ad;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+    }
+
+        .event-modal button:hover {
+            background-color: #265a88;
+        }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .event-modal {
+        max-width: 90%;
+    }
+
+    .rbc-event {
+        font-size: 0.65em; /* Further reduce font size on small screens */
+    }
+
+    .schedule-calendar-container {
+        padding: 10px; /* Reduce padding on small screens */
+    }
 }

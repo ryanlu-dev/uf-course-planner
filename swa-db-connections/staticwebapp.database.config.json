@@ -18,9 +18,9 @@
       "path": "/graphql"
     },
     "host": {
-      "mode": "production",
+      "mode": "development",
       "cors": {
-        "origins": ["http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/", "https://delightful-tree-05363c61e.5.azurestaticapps.net", "http://localhost:3000"],
+        "origins": ["http://localhost:4280", "https://ufcourseplanner.ryanlu.dev/auth/settings", "https://delightful-tree-05363c61e.5.azurestaticapps.net", "http://localhost:3000"],
         "allow-credentials": false
       },
       "authentication": {
@@ -34,7 +34,7 @@
       "permissions": [
         {
           "actions": ["*"],
-          "role": "anonymous"
+          "role": "authenticated"
         }
       ]
     },
@@ -43,7 +43,7 @@
       "permissions": [
         {
           "actions": ["*"],
-          "role": "anonymous"
+          "role": "authenticated"
         }
       ]
     },
@@ -52,7 +52,7 @@
       "permissions": [
         {
           "actions": ["*"],
-          "role": "anonymous"
+          "role": "authenticated"
         }
       ]
     },
@@ -61,16 +61,16 @@
       "permissions": [
         {
           "actions": ["*"],
-          "role": "anonymous"
+          "role": "authenticated"
         }
       ]
     },
-    "major_courses": {
-      "source": "major_courses",
+    "model_semester_plans": {
+      "source": "model_semester_plans",
       "permissions": [
         {
           "actions": ["*"],
-          "role": "anonymous"
+          "role": "authenticated"
         }
       ]
     },
@@ -79,7 +79,7 @@
       "permissions": [
         {
           "actions": ["*"],
-          "role": "anonymous"
+          "role": "authenticated"
         }
       ]
     },

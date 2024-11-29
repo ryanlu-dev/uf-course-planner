@@ -55,7 +55,7 @@ export const UserDropdown = () => {
                     </button>
                     <button
                         onClick={() => {
-                            navigate("/settings");
+                            navigate("/auth/settings");
                             setIsDropdownOpen(false);
                         }}
                     >

@@ -14,11 +14,23 @@
         margin-bottom: 30px;
     }
 
-.semester {
+.plangridterm {
     margin-bottom: 40px;
 }
 
-    .semester h3 {
+.sc_plangrid {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .sc_plangrid th,
+    .sc_plangrid td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .sc_plangrid th {
         background-color: #0C4DA2;
         color: white;
         padding: 10px;
@@ -26,41 +38,23 @@
         margin-bottom: 10px;
     }
 
-.semester-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-    .semester-table th,
-    .semester-table td {
-        padding: 12px 15px;
-        border: 1px solid #ddd;
-        text-align: left;
-    }
-
-    .semester-table th {
-        background-color: #e9ecef;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .semester-table tr:nth-child(even) td {
+    .sc_plangrid tr:nth-child(even) td {
         background-color: #f9f9f9;
     }
 
     /* Fixed column widths */
-    .semester-table th:first-child,
-    .semester-table td:first-child {
+    .sc_plangrid th:first-child,
+    .sc_plangrid td:first-child {
         width: 25%;
     }
 
-    .semester-table th:nth-child(2),
-    .semester-table td:nth-child(2) {
+    .sc_plangrid th:nth-child(2),
+    .sc_plangrid td:nth-child(2) {
         width: 55%;
     }
 
-    .semester-table th:last-child,
-    .semester-table td:last-child {
+    .sc_plangrid th:last-child,
+    .sc_plangrid td:last-child {
         width: 20%;
         text-align: center;
     }

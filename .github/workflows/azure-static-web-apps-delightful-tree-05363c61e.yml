@@ -4,12 +4,12 @@ on:
   push:
     branches:
       - main
-      - model-semester-plan
+      - profile-page
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
-      - model-semester-plan
+      - profile-page
 
 jobs:
   build_and_deploy_job:

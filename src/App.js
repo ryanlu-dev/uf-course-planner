@@ -19,13 +19,11 @@ function App() {
   // States for global-checks
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
-  const [registeredStatus, setRegisteredStatus] = useState(false);
 
   // Authentication process
   useEffect(() => {
     setIsAuthenticated(false);
     setAuthChecked(false);
-    setRegisteredStatus(false);
     const storedAuth = sessionStorage.getItem("isAuthenticated");
     if (storedAuth === "true") { // If the session remembers the user, they have passsed auth
       setIsAuthenticated(true);
@@ -51,33 +49,6 @@ function App() {
     }
   }, []);
 
-  // Registration checking process
-  useEffect(() => {
-    const checkRegistrationStatus = async () => {
-      const storedAzureId = sessionStorage.getItem("azure_id");
-      if (storedAzureId) {
-        try {
-          const response = await fetch(`/api/getUserInfo?azure_id=${encodeURIComponent(storedAzureId)}`);
-          if (response.ok) {
-            const data = await response.json();
-            setRegisteredStatus(!!data); // If the response data exists, user is registered
-          } else {
-            console.error("Error checking registration status:", response.status);
-            setRegisteredStatus(false);
-          }
-        } catch (error) {
-          console.error("Error during API call:", error);
-          setRegisteredStatus(false);
-        }
-      } else {
-        setRegisteredStatus(false);
-      }
-    };
-  
-    if (isAuthenticated) {
-      checkRegistrationStatus();
-    }
-  }, [isAuthenticated]);
 
   if (!authChecked) {
     return <LoadingSpinner />;

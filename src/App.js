@@ -24,10 +24,9 @@ function App() {
   const [authChecked, setAuthChecked] = useState(false); // Check if auth status has been determined
 
   useEffect(() => {
-    // Mock authentication for local testing
-    setIsAuthenticated(true); // Directly set authenticated for testing
-    setAuthChecked(true); // Skip the actual auth check for now
-    /*const storedAuth = sessionStorage.getItem("isAuthenticated");
+    setIsAuthenticated(false); // Directly set authenticated for testing
+    setAuthChecked(false); // Skip the actual auth check for now
+    const storedAuth = sessionStorage.getItem("isAuthenticated");
     if (storedAuth === "true") {
       setIsAuthenticated(true);
       setAuthChecked(true); // Auth check complete
@@ -49,7 +48,7 @@ function App() {
           setIsAuthenticated(false);
           setAuthChecked(true); // Ensure auth check completes even on error
         });
-    }*/
+    }
   }, []);
 
   // Render nothing until authentication status is confirmed

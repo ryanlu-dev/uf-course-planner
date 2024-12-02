@@ -80,7 +80,7 @@ function App() {
         (JSON.stringify(userInfo) === "{}") ? setIsRegistered(false) : setIsRegistered(true);
       });      
     }
-  }, [authChecked, azure_id, fetchUserInfo]);
+  }, [authChecked, azure_id, userInfo, fetchUserInfo]);
 
 
   if (!authChecked || isUserInfoLoading) {

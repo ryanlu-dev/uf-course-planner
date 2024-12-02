@@ -22,7 +22,6 @@ import AzureLogoutRedirect from "./Pages/AzureLogoutRedirect";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false); // Check if auth status has been determined
-  const [userInfo, setUserInfo] = useState(null);
   const [registeredStatus, setRegisteredStatus] = useState(false);
 
   useEffect(() => {
@@ -55,22 +54,32 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const checkInDb = useCallback(async (a_id) => {
-      try {
-          const response = await fetch(`/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`);
-          if (!response.ok) {
-              console.error('Failed to fetch user info:', response.statusText);
-              return;
+    const checkRegistrationStatus = async () => {
+      const storedAzureId = sessionStorage.getItem("azure_id");
+      if (storedAzureId) {
+        try {
+          const response = await fetch(`/api/getUserInfo?azure_id=${encodeURIComponent(storedAzureId)}`);
+          if (response.ok) {
+            const data = await response.json();
+            setRegisteredStatus(!!data); // If the response data exists, user is registered
+          } else {
+            console.error("Error checking registration status:", response.status);
+            setRegisteredStatus(false); // Default to false if API call fails
           }
-          const data = await response.json();
-          setUserInfo(data);
-      } catch (error) {
-          console.error('Error fetching user info:', error);
+        } catch (error) {
+          console.error("Error during API call:", error);
+          setRegisteredStatus(false);
+        }
+      } else {
+        setRegisteredStatus(false);
       }
-    }, []);
-    checkInDb(sessionStorage.getItem("azure_id"));
-    (!userInfo || JSON.stringify(userInfo) === '{}') ? setRegisteredStatus(false) : setRegisteredStatus(true);
+    };
+  
+    if (isAuthenticated) {
+      checkRegistrationStatus();
+    }
   }, [isAuthenticated]);
+  
 
   // Render nothing until authentication status is confirmed
   if (!authChecked) return null;
@@ -81,7 +90,11 @@ function App() {
         <Route
           path="/"
           element={
-            isAuthenticated && !registeredStatus ? <Navigate to="/auth/profile" /> : <LandingPage />
+            isAuthenticated 
+              ? !registeredStatus
+                ? <Navigate to="/auth/profile" />
+                : <LandingPage />
+              : <LandingPage />
           }
         />
         <Route

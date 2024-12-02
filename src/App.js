@@ -74,7 +74,7 @@ function App() {
 
   const azure_id = sessionStorage.getItem("azure_id");
   useEffect(() => {
-    if (authChecked && azure_id) {
+    if (authChecked && JSON.stringify(azure_id) !== "{}") {
       fetchUserInfo(azure_id).then(() => {
         console.log(JSON.stringify(userInfo));
         (JSON.stringify(userInfo) === "{}") ? setIsRegistered(false) : setIsRegistered(true);
@@ -83,7 +83,7 @@ function App() {
   }, [authChecked, azure_id, userInfo, fetchUserInfo]);
 
 
-  if (!authChecked || isUserInfoLoading) {
+  if (!authChecked) {
     return <LoadingSpinner />;
   }
 

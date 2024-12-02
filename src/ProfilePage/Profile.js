@@ -21,7 +21,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const response = await fetch("/api/updateProfile", {
-        method: "PUT",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({name: newName, major_id: major, current_semester: current_semester, azure_id: azure_id}),
       });

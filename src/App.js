@@ -86,7 +86,7 @@ function App() {
   }
 
   if (isRedirecting) {
-    return <RedirToProfile />;
+    return <RedirToProfile onRedirectComplete={() => setIsRedirecting(false)}/>;
   }
 
   return (

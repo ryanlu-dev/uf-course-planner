@@ -68,7 +68,7 @@ function App() {
           setAuthChecked(true); // Ensure auth check completes even on error
         });
     }
-  }, [checkInDb]);
+  }, [userInfo, checkInDb]);
 
   // Render nothing until authentication status is confirmed
   if (!authChecked) return null;

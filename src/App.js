@@ -61,12 +61,14 @@ function App() {
       );
       if (!response.ok) {
         console.error("Failed to fetch user info:", response.statusText);
-        return;
+        return null;
       }
       const data = await response.json();
       setUserInfo(data);
+      return data;
     } catch (error) {
       console.error("Error fetching user info:", error);
+      return null;
     } finally {
       setIsUserInfoLoading(false);
     }
@@ -87,6 +89,7 @@ function App() {
   
     loadUserInfo();
   }, [authChecked, azure_id, fetchUserInfo]);
+  
   
   useEffect(() => {
     if (userInfo) {

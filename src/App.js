@@ -19,11 +19,13 @@ function App() {
   // States for global-checks
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   // Authentication process
   useEffect(() => {
     setIsAuthenticated(false);
     setAuthChecked(false);
+    setIsRegistered(false);
     const storedAuth = sessionStorage.getItem("isAuthenticated");
     if (storedAuth === "true") { // If the session remembers the user, they have passsed auth
       setIsAuthenticated(true);
@@ -48,6 +50,33 @@ function App() {
         });
     }
   }, []);
+
+  const [userInfo, setUserInfo] = useState(null);
+  const fetchUserInfo = useCallback(async (a_id) => {
+    try {
+      const response = await fetch(
+        `/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`
+      );
+      if (!response.ok) {
+        console.error("Failed to fetch user info:", response.statusText);
+        return;
+      }
+      const data = await response.json();
+      setUserInfo(data);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    } finally {
+      setIsUserInfoLoading(false);
+    }
+  }, []);
+
+  const azure_id = sessionStorage.getItem("azure_id");
+  useEffect(async() => {
+    if (azure_id) {
+      await fetchUserInfo(azure_id);
+      (JSON.stringify(userInfo) === "{}") ? setIsRegistered(false) : setIsRegistered(true);
+    }
+  }, [azure_id, fetchUserInfo]);
 
 
   if (!authChecked) {
@@ -82,31 +111,31 @@ function App() {
         >
           <Route
             index
-            element={<HomePage />}
+            element={isRegistered ? <HomePage /> : <Navigate to="/auth/profile" />}
           />
           <Route
             path="courses"
-            element={<Courses />}
+            element={isRegistered ? <Courses /> : <Navigate to="/auth/profile" />}
           />
           <Route
             path="degree-plan"
-            element={<DegreePlan />}
+            element={isRegistered ? <DegreePlan /> : <Navigate to="/auth/profile" />}
           />
           <Route
             path="schedule"
-            element={<Schedule />}
+            element={isRegistered ? <Schedule /> : <Navigate to="/auth/profile" />}
           />
           <Route
             path="grades"
-            element={<Grades />}
+            element={isRegistered ? <Grades /> : <Navigate to="/auth/profile" />}
           />
           <Route
             path="settings"
-            element={<Settings />}
+            element={isRegistered ? <Settings /> : <Navigate to="/auth/profile" />}
           />
           <Route
             path="help"
-            element={<Help />}
+            element={isRegistered ? <Help /> : <Navigate to="/auth/profile" />}
           />
           <Route
             path="profile"

@@ -1,18 +1,15 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "./LoadingSpinner.css";
 
 const RedirToProfile = ({ onRedirectComplete }) => {
-  const navigate = useNavigate();
-
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/auth/profile");
+      window.location.href = "/auth/profile";
       if (onRedirectComplete) onRedirectComplete();
     }, 1500);
 
     return () => clearTimeout(timer); // Cleanup timeout if the component unmounts
-  }, [navigate, onRedirectComplete]);
+  }, [onRedirectComplete]);
 
   return (
     <div className="loading-spinner-container">

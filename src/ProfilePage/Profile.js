@@ -39,6 +39,7 @@ const Profile = () => {
       setIsUserInfoLoading(false);
     }
     alert(`Updated. Also, graduation date is: ${gradDate}`);
+    window.location.href = "/auth/";
   }, [newName, major, current_semester, azure_id, gradDate]);
 
   useEffect(() => {

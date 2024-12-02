@@ -18,6 +18,8 @@ import Profile from "./ProfilePage/Profile";
 import Layout from "./Layout";
 import AzureLoginRedirect from "./Pages/AzureLoginRedirect";
 import AzureLogoutRedirect from "./Pages/AzureLogoutRedirect";
+import LoadingSpinner from "./LoadingSpinner";
+import RedirToProfile from "./RedirToProfile";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -82,7 +84,8 @@ function App() {
   
 
   // Render nothing until authentication status is confirmed
-  if (!authChecked) return null;
+  if (!authChecked) return (<LoadingSpinner />);
+  if (!registeredStatus) return (<RedirToProfile />);
 
   return (
     <Router>

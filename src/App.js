@@ -88,8 +88,12 @@ function App() {
     loadUserInfo();
   }, [authChecked, azure_id, fetchUserInfo]);
   
+  useEffect(() => {
+    if (userInfo) {
+      console.log("Fetched user info:", userInfo); // Just use it somewhere to suppress warning
+    }
+  }, [userInfo]);
   
-
   if (!authChecked || isUserInfoLoading) {
     return <LoadingSpinner />;
   }

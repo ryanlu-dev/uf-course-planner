@@ -14,10 +14,36 @@ const Profile = () => {
   const [isUserInfoLoading, setIsUserInfoLoading] = useState(true);
   const [userInfo, setUserInfo] = useState(null);
 
-  const handleSubmit = (e) => {
+  const [newName, setNewName] = useState("");
+  const [current_semester, setCurrentSemester] = useState("");
+
+  const updateProfile = useCallback(async (e) => {
     e.preventDefault();
-    alert("Profile saved!" + major + courseload + gradDate);
-  };
+    try {
+      const response = await fetch("/api/updateProfile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({name: newName, major_id: major, current_semester: current_semester, azure_id: azure_id}),
+      });
+      if (!response.ok) {
+        console.error("Failed to update profile:", response.statusText);
+        return;
+      }
+      const data = await response.json();
+      setUserInfo(data);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    } finally {
+      setIsUserInfoLoading(false);
+    }
+  }, [newName, major, current_semester, azure_id]);
+
+  useEffect(() => {
+    if (userInfo) {
+      setNewName(userInfo.user_name || "");
+      setCurrentSemester(userInfo.current_semester || "");
+    }
+  }, [userInfo]);
 
   // Generates the visible graduation date options based on the current day
   const generateGradOptions = () => {
@@ -128,7 +154,27 @@ const Profile = () => {
               </tbody>
             </table>
 
-            <form className="profile-form" onSubmit={handleSubmit}>
+            <form className="profile-form" onSubmit={updateProfile}>
+              <div>
+                <label htmlFor="new-name">Name</label>
+                <input
+                  type="text"
+                  id="new-name"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  placeholder="Edit your name"
+                />
+              </div>
+              <div>
+                <label htmlFor="current-semester">Current Semester</label>
+                <input
+                  type="text"
+                  id="current-semester"
+                  value={current_semester}
+                  onChange={(e) => setCurrentSemester(e.target.value)}
+                  placeholder="Edit current semester"
+                />
+              </div>
               <div>
                 <label htmlFor="major">Major</label>
                 <Select

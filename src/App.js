@@ -22,10 +22,27 @@ import AzureLogoutRedirect from "./Pages/AzureLogoutRedirect";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false); // Check if auth status has been determined
+  const [userInfo, setUserInfo] = useState(null);
+  const [registeredStatus, setRegisteredStatus] = useState(false);
+
+  const checkInDb = useCallback(async (a_id) => {
+    try {
+        const response = await fetch(`/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`);
+        if (!response.ok) {
+            console.error('Failed to fetch user info:', response.statusText);
+            return;
+        }
+        const data = await response.json();
+        setUserInfo(data);
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+    }
+}, []);
 
   useEffect(() => {
-    setIsAuthenticated(false); // Directly set authenticated for testing
-    setAuthChecked(false); // Skip the actual auth check for now
+    setIsAuthenticated(false);
+    setAuthChecked(false);
+    setRegisteredStatus(false);
     const storedAuth = sessionStorage.getItem("isAuthenticated");
     if (storedAuth === "true") {
       setIsAuthenticated(true);
@@ -42,6 +59,8 @@ function App() {
           }
           setIsAuthenticated(authStatus);
           setAuthChecked(true); // Auth check complete
+          checkInDb(sessionStorage.getItem("azure_id"));
+          (!userInfo || userInfo == []) ? registeredStatus = false : registeredStatus = true;
         })
         .catch((err) => {
           console.error("Error fetching auth data:", err);
@@ -49,7 +68,7 @@ function App() {
           setAuthChecked(true); // Ensure auth check completes even on error
         });
     }
-  }, []);
+  }, [checkInDb]);
 
   // Render nothing until authentication status is confirmed
   if (!authChecked) return null;
@@ -59,7 +78,9 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={isAuthenticated ? <Navigate to="/auth" /> : <LandingPage />}
+          element={
+            isAuthenticated && !registeredStatus ? <Navigate to="/auth/profile" /> : <LandingPage />
+          }
         />
         <Route
           path="/login"
@@ -75,39 +96,39 @@ function App() {
         {/* Protect all /auth routes */}
         <Route
           path="/auth"
-          element={isAuthenticated ? <Layout /> : <Navigate to="/" />}
+          element={isAuthenticated && registeredStatus ? <Layout /> : <Navigate to="/" />}
         >
           <Route
             index
-            element={isAuthenticated ? <HomePage /> : <Navigate to="/" />}
+            element={isAuthenticated && registeredStatus ? <HomePage /> : <Navigate to="/" />}
           />
           <Route
             path="courses"
-            element={isAuthenticated ? <Courses /> : <Navigate to="/" />}
+            element={isAuthenticated && registeredStatus ? <Courses /> : <Navigate to="/" />}
           />
           <Route
             path="degree-plan"
-            element={isAuthenticated ? <DegreePlan /> : <Navigate to="/" />}
+            element={isAuthenticated && registeredStatus ? <DegreePlan /> : <Navigate to="/" />}
           />
           <Route
             path="schedule"
-            element={isAuthenticated ? <Schedule /> : <Navigate to="/" />}
+            element={isAuthenticated && registeredStatus ? <Schedule /> : <Navigate to="/" />}
           />
           <Route
             path="grades"
-            element={isAuthenticated ? <Grades /> : <Navigate to="/" />}
+            element={isAuthenticated && registeredStatus ? <Grades /> : <Navigate to="/" />}
           />
           <Route
             path="settings"
-            element={isAuthenticated ? <Settings /> : <Navigate to="/" />}
+            element={isAuthenticated && registeredStatus ? <Settings /> : <Navigate to="/" />}
           />
           <Route
             path="help"
-            element={isAuthenticated ? <Help /> : <Navigate to="/" />}
+            element={isAuthenticated && registeredStatus ? <Help /> : <Navigate to="/" />}
           />
           <Route
             path="profile"
-            element={isAuthenticated ? <Profile /> : <Navigate to="/" />}
+            element={isAuthenticated && registeredStatus ? <Profile /> : <Navigate to="/" />}
           />
         </Route>
       </Routes>

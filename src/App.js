@@ -77,8 +77,8 @@ function App() {
     const loadUserInfo = async () => {
       if (authChecked && azure_id) {
         try {
-          await fetchUserInfo(azure_id);
-          setIsRegistered(userInfo && Object.keys(userInfo).length > 0);
+          const fetchedUserInfo = await fetchUserInfo(azure_id);
+          setIsRegistered(fetchedUserInfo && Object.keys(fetchedUserInfo).length > 0);
         } catch (error) {
           console.error("Error during user info loading:", error);
         }
@@ -87,6 +87,7 @@ function App() {
   
     loadUserInfo();
   }, [authChecked, azure_id, fetchUserInfo]);
+  
   
 
   if (!authChecked || isUserInfoLoading) {

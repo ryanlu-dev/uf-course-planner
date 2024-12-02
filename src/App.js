@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import LandingPage from "./LandingPage/LandingPage";
 import AboutPage from "./LandingPage/AboutPage/Aboutpage";
 import HomePage from "./Pages/HomePage";
@@ -22,7 +22,6 @@ function App() {
   const [authChecked, setAuthChecked] = useState(false);
   const [registeredStatus, setRegisteredStatus] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const location = useLocation();
 
   // Authentication process
   useEffect(() => {
@@ -97,7 +96,7 @@ function App() {
           path="/"
           element={
             isAuthenticated
-              ? !registeredStatus || !location.pathname === "/auth/profile"
+              ? !registeredStatus || !(window.location.pathname === "/auth/profile")
                 ? (() => {
                     setIsRedirecting(true);
                     return <Navigate to="/auth/profile" />;
@@ -122,7 +121,7 @@ function App() {
           path="/auth"
           element={
             isAuthenticated
-              ? registeredStatus || location.pathname === "/auth/profile"
+              ? registeredStatus || window.location.pathname === "/auth/profile"
                 ? <Layout />
                 : (() => {
                     setIsRedirecting(true);

@@ -18,17 +18,15 @@ const Profile = () => {
   const [isUserInfoLoading, setIsUserInfoLoading] = useState(true);
   const [userInfo, setUserInfo] = useState(null);
 
-  
+
   const updateProfile = useCallback(async (e) => {
     e.preventDefault();
-    console.log({ newName, major, current_semester, azure_id });
     try {
       const response = await fetch("/api/updateProfile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({name: newName, major_id: major, current_semester: current_semester, azure_id: azure_id}),
       });
-      console.log("Response:", response);
       if (!response.ok) {
         console.error("Failed to update profile:", response.statusText);
         return;

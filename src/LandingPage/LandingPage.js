@@ -2,6 +2,7 @@ import React from "react";
 import "./LandingPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FaLinkedin } from "react-icons/fa";
+import { FaMicrosoft } from "react-icons/fa";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -42,13 +43,7 @@ const LandingPage = () => {
               className="cta-button primary"
               onClick={() => navigate("/signup")}
             >
-              Make a Free Account
-            </button>
-            <button
-              className="cta-button secondary"
-              onClick={() => navigate("/login")}
-            >
-              Sign In
+              Sign in with Microsoft <FaMicrosoft/>
             </button>
           </div>
         </div>

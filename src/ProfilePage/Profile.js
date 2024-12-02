@@ -105,7 +105,7 @@ const Profile = () => {
             <div className="spinner"></div>
             <p>Loading Profile...</p>
           </div>
-        ) : userInfo & majorOptions ? (
+        ) : userInfo && majorOptions ? (
           <>
             <table>
               <thead>

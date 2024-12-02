@@ -14,14 +14,12 @@ import Layout from "./Layout";
 import AzureLoginRedirect from "./Pages/AzureLoginRedirect";
 import AzureLogoutRedirect from "./Pages/AzureLogoutRedirect";
 import LoadingSpinner from "./LoadingSpinner";
-import RedirToProfile from "./RedirToProfile";
 
 function App() {
   // States for global-checks
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const [registeredStatus, setRegisteredStatus] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
 
   // Authentication process
   useEffect(() => {
@@ -85,24 +83,13 @@ function App() {
     return <LoadingSpinner />;
   }
 
-  if (isRedirecting) {
-    return <RedirToProfile onRedirectComplete={() => setIsRedirecting(false)}/>;
-  }
-
   return (
     <Router>
       <Routes>
         <Route
           path="/"
           element={
-            isAuthenticated
-              ? !registeredStatus || !(window.location.pathname === "/auth/profile")
-                ? (() => {
-                    setIsRedirecting(true);
-                    return <Navigate to="/auth/profile" />;
-                  })()
-                : <LandingPage />
-              : <LandingPage />
+            isAuthenticated ? <Navigate to="/auth" />: <LandingPage />
           }
         />
         <Route
@@ -119,15 +106,7 @@ function App() {
         {/* Protect all /auth routes */}
         <Route
           path="/auth"
-          element={
-            isAuthenticated
-              ? registeredStatus || window.location.pathname === "/auth/profile"
-                ? <Layout />
-                : (() => {
-                    setIsRedirecting(true);
-                    return <Navigate to="/auth/profile" />;
-                  })()
-              : <Navigate to="/" />
+          element={isAuthenticated ? <Layout /> : <Navigate to="/" />
           }
         >
           <Route

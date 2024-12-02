@@ -74,13 +74,20 @@ function App() {
 
   const azure_id = sessionStorage.getItem("azure_id");
   useEffect(() => {
-    if (authChecked && JSON.stringify(azure_id) !== "{}") {
-      fetchUserInfo(azure_id).then(() => {
-        console.log(JSON.stringify(userInfo));
-        (JSON.stringify(userInfo) === "{}") ? setIsRegistered(false) : setIsRegistered(true);
-      });      
-    }
-  }, [authChecked, azure_id, userInfo, fetchUserInfo]);
+    const loadUserInfo = async () => {
+      if (authChecked && azure_id) {
+        try {
+          await fetchUserInfo(azure_id);
+          setIsRegistered(userInfo && Object.keys(userInfo).length > 0);
+        } catch (error) {
+          console.error("Error during user info loading:", error);
+        }
+      }
+    };
+  
+    loadUserInfo();
+  }, [authChecked, azure_id, fetchUserInfo]);
+  
 
   if (!authChecked || isUserInfoLoading) {
     return <LoadingSpinner />;

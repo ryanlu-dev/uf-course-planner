@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import LandingPage from "./LandingPage/LandingPage";
 import AboutPage from "./LandingPage/AboutPage/Aboutpage";
 import HomePage from "./Pages/HomePage";
@@ -22,30 +17,33 @@ import LoadingSpinner from "./LoadingSpinner";
 import RedirToProfile from "./RedirToProfile";
 
 function App() {
+  // States for global-checks
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authChecked, setAuthChecked] = useState(false); // Check if auth status has been determined
+  const [authChecked, setAuthChecked] = useState(false);
   const [registeredStatus, setRegisteredStatus] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
+  // Authentication process
   useEffect(() => {
     setIsAuthenticated(false);
     setAuthChecked(false);
     setRegisteredStatus(false);
     const storedAuth = sessionStorage.getItem("isAuthenticated");
-    if (storedAuth === "true") {
+    if (storedAuth === "true") { // If the session remembers the user, they have passsed auth
       setIsAuthenticated(true);
-      setAuthChecked(true); // Auth check complete
+      setAuthChecked(true);
     } else {
       fetch("/.auth/me")
         .then((res) => res.json())
         .then((data) => {
-          const authStatus = data.clientPrincipal ? true : false;
+          const authStatus = data.clientPrincipal ? true : false; // clientPrincipal only returned on valid user
           sessionStorage.setItem("isAuthenticated", authStatus.toString());
           if (authStatus) {
-            sessionStorage.setItem("azure_id", data.clientPrincipal.userId); // Store Azure ID
-            sessionStorage.setItem("email", data.clientPrincipal.userDetails); // Store user email
+            sessionStorage.setItem("azure_id", data.clientPrincipal.userId);
+            sessionStorage.setItem("email", data.clientPrincipal.userDetails);
           }
           setIsAuthenticated(authStatus);
-          setAuthChecked(true); // Auth check complete
+          setAuthChecked(true);
         })
         .catch((err) => {
           console.error("Error fetching auth data:", err);
@@ -55,6 +53,7 @@ function App() {
     }
   }, []);
 
+  // Registration checking process
   useEffect(() => {
     const checkRegistrationStatus = async () => {
       const storedAzureId = sessionStorage.getItem("azure_id");
@@ -66,7 +65,7 @@ function App() {
             setRegisteredStatus(!!data); // If the response data exists, user is registered
           } else {
             console.error("Error checking registration status:", response.status);
-            setRegisteredStatus(false); // Default to false if API call fails
+            setRegisteredStatus(false);
           }
         } catch (error) {
           console.error("Error during API call:", error);
@@ -81,11 +80,14 @@ function App() {
       checkRegistrationStatus();
     }
   }, [isAuthenticated]);
-  
 
-  // Render nothing until authentication status is confirmed
-  if (!authChecked) return (<LoadingSpinner />);
-  if (!registeredStatus) return (<RedirToProfile />);
+  if (!authChecked) {
+    return <LoadingSpinner />;
+  }
+
+  if (isRedirecting) {
+    return <RedirToProfile />;
+  }
 
   return (
     <Router>
@@ -93,9 +95,12 @@ function App() {
         <Route
           path="/"
           element={
-            isAuthenticated 
+            isAuthenticated
               ? !registeredStatus
-                ? <Navigate to="/auth/profile" />
+                ? (() => {
+                    setIsRedirecting(true);
+                    return <Navigate to="/auth/profile" />;
+                  })()
                 : <LandingPage />
               : <LandingPage />
           }
@@ -114,39 +119,48 @@ function App() {
         {/* Protect all /auth routes */}
         <Route
           path="/auth"
-          element={isAuthenticated && registeredStatus ? <Layout /> : <Navigate to="/" />}
+          element={
+            isAuthenticated
+              ? registeredStatus
+                ? <Layout />
+                : (() => {
+                    setIsRedirecting(true);
+                    return <Navigate to="/auth/profile" />;
+                  })()
+              : <Navigate to="/" />
+          }
         >
           <Route
             index
-            element={isAuthenticated && registeredStatus ? <HomePage /> : <Navigate to="/" />}
+            element={<HomePage />}
           />
           <Route
             path="courses"
-            element={isAuthenticated && registeredStatus ? <Courses /> : <Navigate to="/" />}
+            element={<Courses />}
           />
           <Route
             path="degree-plan"
-            element={isAuthenticated && registeredStatus ? <DegreePlan /> : <Navigate to="/" />}
+            element={<DegreePlan />}
           />
           <Route
             path="schedule"
-            element={isAuthenticated && registeredStatus ? <Schedule /> : <Navigate to="/" />}
+            element={<Schedule />}
           />
           <Route
             path="grades"
-            element={isAuthenticated && registeredStatus ? <Grades /> : <Navigate to="/" />}
+            element={<Grades />}
           />
           <Route
             path="settings"
-            element={isAuthenticated && registeredStatus ? <Settings /> : <Navigate to="/" />}
+            element={<Settings />}
           />
           <Route
             path="help"
-            element={isAuthenticated && registeredStatus ? <Help /> : <Navigate to="/" />}
+            element={<Help />}
           />
           <Route
             path="profile"
-            element={isAuthenticated && registeredStatus ? <Profile /> : <Navigate to="/" />}
+            element={<Profile />}
           />
         </Route>
       </Routes>

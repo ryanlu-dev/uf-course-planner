@@ -3,20 +3,22 @@ import Select from "react-select";
 import "./Profile.css";
 
 const Profile = () => {
+  // Form variables
   const [major, setMajor] = useState("");
   const [majorOptions, setMajorOptions] = useState([]);
   const [courseload, setCourseload] = useState("");
   const [gradDate, setGradDate] = useState("");
+  const [newName, setNewName] = useState("");
+  const [current_semester, setCurrentSemester] = useState("");
 
+  // Session/state variables
   const azure_id = sessionStorage.getItem("azure_id");
   const email = sessionStorage.getItem("email");
   const [isMajorsLoading, setIsMajorsLoading] = useState(true);
   const [isUserInfoLoading, setIsUserInfoLoading] = useState(true);
   const [userInfo, setUserInfo] = useState(null);
 
-  const [newName, setNewName] = useState("");
-  const [current_semester, setCurrentSemester] = useState("");
-
+  
   const updateProfile = useCallback(async (e) => {
     e.preventDefault();
     console.log({ newName, major, current_semester, azure_id });

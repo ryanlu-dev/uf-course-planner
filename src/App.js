@@ -82,8 +82,7 @@ function App() {
     }
   }, [authChecked, azure_id, userInfo, fetchUserInfo]);
 
-
-  if (!authChecked) {
+  if (!authChecked || isUserInfoLoading) {
     return <LoadingSpinner />;
   }
 

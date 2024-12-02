@@ -73,11 +73,12 @@ function App() {
   }, []);
 
   const azure_id = sessionStorage.getItem("azure_id");
-  useEffect(async() => {
+  useEffect(() => {
     if (authChecked && azure_id) {
-      await fetchUserInfo(azure_id);
-      console.log(JSON.stringify(userInfo));
-      (JSON.stringify(userInfo) === "{}") ? setIsRegistered(false) : setIsRegistered(true);
+      fetchUserInfo(azure_id).then(() => {
+        console.log(JSON.stringify(userInfo));
+        (JSON.stringify(userInfo) === "{}") ? setIsRegistered(false) : setIsRegistered(true);
+      });      
     }
   }, [authChecked, azure_id, fetchUserInfo]);
 

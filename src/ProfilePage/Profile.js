@@ -36,7 +36,7 @@ const Profile = () => {
     } finally {
       setIsUserInfoLoading(false);
     }
-    alert(data + gradDate);
+    alert("Updated. Also, graduation date is: ", gradDate);
   }, [newName, major, current_semester, azure_id]);
 
   useEffect(() => {

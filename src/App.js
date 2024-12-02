@@ -25,20 +25,6 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const [registeredStatus, setRegisteredStatus] = useState(false);
 
-  const checkInDb = useCallback(async (a_id) => {
-    try {
-        const response = await fetch(`/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`);
-        if (!response.ok) {
-            console.error('Failed to fetch user info:', response.statusText);
-            return;
-        }
-        const data = await response.json();
-        setUserInfo(data);
-    } catch (error) {
-        console.error('Error fetching user info:', error);
-    }
-}, []);
-
   useEffect(() => {
     setIsAuthenticated(false);
     setAuthChecked(false);
@@ -59,8 +45,6 @@ function App() {
           }
           setIsAuthenticated(authStatus);
           setAuthChecked(true); // Auth check complete
-          checkInDb(sessionStorage.getItem("azure_id"));
-          (!userInfo || JSON.stringify(userInfo) === '{}') ? setRegisteredStatus(false) : setRegisteredStatus(true);
         })
         .catch((err) => {
           console.error("Error fetching auth data:", err);
@@ -68,7 +52,25 @@ function App() {
           setAuthChecked(true); // Ensure auth check completes even on error
         });
     }
-  }, [userInfo, checkInDb]);
+  }, []);
+
+  useEffect(() => {
+    const checkInDb = useCallback(async (a_id) => {
+      try {
+          const response = await fetch(`/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`);
+          if (!response.ok) {
+              console.error('Failed to fetch user info:', response.statusText);
+              return;
+          }
+          const data = await response.json();
+          setUserInfo(data);
+      } catch (error) {
+          console.error('Error fetching user info:', error);
+      }
+    }, []);
+    checkInDb(sessionStorage.getItem("azure_id"));
+    (!userInfo || JSON.stringify(userInfo) === '{}') ? setRegisteredStatus(false) : setRegisteredStatus(true);
+  }, [isAuthenticated]);
 
   // Render nothing until authentication status is confirmed
   if (!authChecked) return null;

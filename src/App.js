@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import LandingPage from "./LandingPage/LandingPage";
 import AboutPage from "./LandingPage/AboutPage/Aboutpage";
@@ -20,6 +20,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
+  const [isUserInfoLoading, setIsUserInfoLoading] = useState(false);
 
   // Authentication process
   useEffect(() => {
@@ -54,6 +55,7 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const fetchUserInfo = useCallback(async (a_id) => {
     try {
+      setIsUserInfoLoading(true);
       const response = await fetch(
         `/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`
       );
@@ -80,7 +82,7 @@ function App() {
   }, [authChecked, azure_id, fetchUserInfo]);
 
 
-  if (!authChecked) {
+  if (!authChecked || isUserInfoLoading) {
     return <LoadingSpinner />;
   }
 

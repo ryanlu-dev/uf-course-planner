@@ -1,0 +1,145 @@
+.profile-page {
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+}
+
+.profile-page h2 {
+  color: #0c4da2;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-page table {
+  width: 100%;
+  max-width: 800px;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-page table th,
+.profile-page table td {
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.profile-page table thead th {
+  background-color: #0c4da2;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.profile-page table tbody tr:hover {
+  background-color: #f0f8ff; /* Light blue hover effect for rows */
+}
+
+.profile-page table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.profile-form {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-form label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.profile-form input,
+.profile-form select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.profile-form button {
+  background-color: #0c4da2;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profile-form button:hover {
+  background-color: #094083;
+}
+
+.courseload-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.courseload-options label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: normal;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.courseload-options label:hover {
+  background-color: #f0f8ff; /* Light blue hover effect */
+  border-color: #0c4da2;
+}
+
+.courseload-options input[type="radio"] {
+  margin-right: 10px;
+  accent-color: #0c4da2;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.courseload-options input[type="radio"]:checked + label {
+  border-color: #0c4da2; /* Highlight selected option */
+  background-color: #eaf4ff; /* Subtle blue background for selected */
+}
+
+/* Loading Spinner */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #555;
+  margin-top: 20px;
+}
+
+.spinner {
+  margin-bottom: 10px;
+  width: 40px;
+  height: 40px;
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #007bff; /* Blue */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}

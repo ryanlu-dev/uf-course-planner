@@ -39,6 +39,14 @@ export const UserDropdown = () => {
                 <div className="dropdown-menu">
                     <button
                         onClick={() => {
+                            navigate("/auth/profile"); 
+                            setIsDropdownOpen(false);
+                        }}
+                    >
+                        Profile
+                    </button>
+                    <button
+                        onClick={() => {
                             navigate("/logout");
                             setIsDropdownOpen(false);
                         }}

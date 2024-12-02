@@ -60,7 +60,7 @@ function App() {
           setIsAuthenticated(authStatus);
           setAuthChecked(true); // Auth check complete
           checkInDb(sessionStorage.getItem("azure_id"));
-          (!userInfo || userInfo == []) ? registeredStatus = false : registeredStatus = true;
+          (!userInfo || JSON.stringify(userInfo) === '{}') ? setRegisteredStatus(false) : setRegisteredStatus(true);
         })
         .catch((err) => {
           console.error("Error fetching auth data:", err);

@@ -82,7 +82,7 @@
             align-items: center;
             color: #ffffff;
             text-decoration: none;
-            padding: 15px 20px;
+            padding: 15px 30px;
             transition: background 0.2s;
         }
 
@@ -92,11 +92,12 @@
 
 .menu-icon {
     font-size: 1.2em;
-    margin-right: 20px;
+    position: relative;
 }
 
 .menu-text {
     font-size: 1em;
+    padding-left: 15px;
 }
 
 .sidebar.collapsed .menu-text {

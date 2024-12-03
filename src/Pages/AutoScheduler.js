@@ -25,7 +25,6 @@ const AutoScheduler = () => {
 
         // Find the current semester section
         const text = temp.textContent;
-        const semesterIndex = 8; 
 
         // Regular expression to match course codes (e.g., ADV 4800, MMC 4200)
         const coursePattern = /([A-Z]{3})\s*(\d{4})/g;
@@ -60,8 +59,9 @@ const AutoScheduler = () => {
             }
             const data = await response.json();
             return data;
-        } catch (error) {
-            setError('Error fetching sections: ' + error.message);
+        } catch (err) {
+            setError('Error fetching sections: ' + err.message);
+            console.error(error);
             return [];
         }
     }, []);
@@ -194,6 +194,7 @@ const AutoScheduler = () => {
                     localStorage.setItem("msp", JSON.stringify(plan));
                 }
                 setModelSemesterPlan(plan);
+                console.log(modelSemesterPlan);
 
                 // Parse courses
                 if (plan?.html) {

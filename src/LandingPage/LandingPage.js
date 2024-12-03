@@ -34,9 +34,9 @@ const LandingPage = () => {
           <h1 className="main-title">The All-In-One Scheduling Tool</h1>
           <p className="description">
             Tired of struggling to make sense of what classes to take with which
-            professor at some time? Introducing the UF Auto Course Scheduler:
-            Your personalized platform for academic planning and progress
-            tracking.
+            professor at some time? 
+            <br/>Introducing the UF Course Planner:
+            <br />Your personalized platform for academic planning and progress tracking.
           </p>
           <div className="cta-buttons">
             <button

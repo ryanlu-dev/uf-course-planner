@@ -61,7 +61,6 @@ const AutoScheduler = () => {
             return data;
         } catch (err) {
             setError('Error fetching sections: ' + err.message);
-            console.error(error);
             return [];
         }
     }, []);
@@ -194,8 +193,6 @@ const AutoScheduler = () => {
                     localStorage.setItem("msp", JSON.stringify(plan));
                 }
                 setModelSemesterPlan(plan);
-                console.log(modelSemesterPlan);
-
                 // Parse courses
                 if (plan?.html) {
                     const courses = parseCoursesFromHTML(plan.html);
@@ -229,6 +226,10 @@ const AutoScheduler = () => {
             </div>
         );
     }
+
+    // suppress warnings, temporary
+    console.error(error);
+    console.log(modelSemesterPlan);
 
     return (
         <div className="auto-scheduler">

@@ -62,6 +62,12 @@
   cursor: pointer;
 }
 
+.shift-logo {
+  position: relative;
+  top: 2px;
+  left: 0.25em;
+}
+
 .primary {
   background-color: #0072ce;
   color: #fff;

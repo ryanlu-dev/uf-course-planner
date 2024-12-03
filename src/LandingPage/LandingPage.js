@@ -41,9 +41,9 @@ const LandingPage = () => {
           <div className="cta-buttons">
             <button
               className="cta-button primary"
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/login")}
             >
-              Sign in with Microsoft <FaMicrosoft/>
+              Sign in with Microsoft    <FaMicrosoft className="shift-logo"/>
             </button>
           </div>
         </div>

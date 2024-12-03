@@ -53,6 +53,8 @@ export const UserDropdown = () => {
                     >
                         Logout
                     </button>
+                    {
+                    /*
                     <button
                         onClick={() => {
                             navigate("/auth/settings");
@@ -61,6 +63,8 @@ export const UserDropdown = () => {
                     >
                         Settings
                     </button>
+                    */
+                    }
                 </div>
             )}
         </div>

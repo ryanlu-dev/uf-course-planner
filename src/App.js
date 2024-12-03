@@ -28,9 +28,12 @@ function App() {
     setAuthChecked(false);
     setIsRegistered(false);
     const storedAuth = sessionStorage.getItem("isAuthenticated");
-    if (storedAuth === "true") { // If the session remembers the user, they have passsed auth
+    if (storedAuth === "true" || !process.env.NODE_ENV || process.env.NODE_ENV === 'development') { // If the session remembers the user or it's local dev, they have passsed auth
       setIsAuthenticated(true);
       setAuthChecked(true);
+      if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+        sessionStorage.setItem("azure_id", "cbc8aa3f9e2a4a5e880acbc5252402cb"); // Ryan's azure_id
+      }
     } else {
       fetch("/.auth/me")
         .then((res) => res.json())
@@ -52,13 +55,13 @@ function App() {
     }
   }, []);
 
+  // Registration-checking process
   const [userInfo, setUserInfo] = useState(null);
   const fetchUserInfo = useCallback(async (a_id) => {
     try {
+      const endpoint = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? `http://localhost:7071/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}` : `/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`;
       setIsUserInfoLoading(true);
-      const response = await fetch(
-        `/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`
-      );
+      const response = await fetch(endpoint);
       if (!response.ok) {
         console.error("Failed to fetch user info:", response.statusText);
         return null;
@@ -96,7 +99,7 @@ function App() {
       console.log("Fetched user info:", userInfo); // Just use it somewhere to suppress warning
     }
   }, [userInfo]);
-  
+
   if (!authChecked || isUserInfoLoading) {
     return <LoadingSpinner />;
   }

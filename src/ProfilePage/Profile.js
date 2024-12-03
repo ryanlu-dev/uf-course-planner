@@ -81,9 +81,8 @@ const Profile = () => {
 
   const fetchUserInfo = useCallback(async (a_id) => {
     try {
-      const response = await fetch(
-        `/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`
-      );
+      const endpoint = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? `http://localhost:7071/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}` : `/api/getUserInfo?azure_id=${encodeURIComponent(a_id)}`;
+      const response = await fetch(endpoint);
       if (!response.ok) {
         console.error("Failed to fetch user info:", response.statusText);
         return;
@@ -99,7 +98,8 @@ const Profile = () => {
 
   const fetchMajors = useCallback(async () => {
     try {
-      const response = await fetch(`/api/getAllMajors`);
+      const endpoint = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://localhost:7071/api/getAllMajors' : '/api/getAllMajors';
+      const response = await fetch(endpoint);
       if (!response.ok) {
         console.error("Failed to fetch majors", response.statusText);
         return;

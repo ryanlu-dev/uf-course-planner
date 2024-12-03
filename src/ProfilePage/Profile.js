@@ -22,7 +22,8 @@ const Profile = () => {
   const updateProfile = useCallback(async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/updateProfile", {
+      const endpoint = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://localhost:7071/api/updateProfile' : 'api/updateProfile';
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({name: newName, major_id: major, current_semester: current_semester, azure_id: azure_id}),
@@ -39,6 +40,7 @@ const Profile = () => {
       setIsUserInfoLoading(false);
     }
     alert(`Updated. Also, graduation date is: ${gradDate}`);
+    localStorage.removeItem("msp");
     window.location.href = "/auth/";
   }, [newName, major, current_semester, azure_id, gradDate]);
 

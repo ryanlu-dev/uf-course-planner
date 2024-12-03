@@ -1,7 +1,8 @@
 import React from "react";
 
 const AzureLogoutRedirect = () => {
-  sessionStorage.removeItem("isAuthenticated");
+  sessionStorage.clear();
+  localStorage.clear();
   React.useEffect(() => {
     window.location.href = "/logout/";
   }, []);

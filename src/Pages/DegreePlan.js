@@ -5,23 +5,31 @@ import './Styles/DegreePlan.css';
 
 const DegreePlan = () => {
     const azure_id = sessionStorage.getItem("azure_id");
+    const msp = localStorage.getItem("msp");
     const [modelSemesterPlan, setModelSemesterPlan] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchModelSemesterPlan = useCallback(async (a_id) => {
-        try {
-            const endpoint = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? `http://localhost:7071/api/getModelSemesterPlan?azure_id=${encodeURIComponent(a_id)}` : `/api/getModelSemesterPlan?azure_id=${encodeURIComponent(a_id)}`;
-            const response = await fetch(endpoint);
-            if (!response.ok) {
-                console.error('Failed to fetch model semester plan:', response.statusText);
-                return;
-            }
-            const data = await response.json();
-            setModelSemesterPlan(data);
-        } catch (error) {
-            console.error('Error fetching model semester plan:', error);
-        } finally {
+        if(msp) {
+            console.log('Using cached model semester plan from localStorage.');
             setIsLoading(false);
+            setModelSemesterPlan(JSON.parse(msp));
+        } else {
+            try {
+                const endpoint = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? `http://localhost:7071/api/getModelSemesterPlan?azure_id=${encodeURIComponent(a_id)}` : `/api/getModelSemesterPlan?azure_id=${encodeURIComponent(a_id)}`;
+                const response = await fetch(endpoint);
+                if (!response.ok) {
+                    console.error('Failed to fetch model semester plan:', response.statusText);
+                    return;
+                }
+                const data = await response.json();
+                setModelSemesterPlan(data);
+                localStorage.setItem("msp", JSON.stringify(data));
+            } catch (error) {
+                console.error('Error fetching model semester plan:', error);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }, []);
 

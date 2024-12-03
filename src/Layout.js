@@ -1,39 +1,36 @@
-// src/Layout.js
 import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import "./Layout.css"; 
-import { HeaderBar } from "./HeaderBar/HeaderBar";
+import "./Layout.css";
+import { UserDropdown } from "./HeaderBar/UserDropdown/UserDropdown";
 import {
     FaHome,
     FaBook,
     FaGraduationCap,
     FaCalendarAlt,
-    //FaChartBar,
-    //FaCog,
-    //FaQuestionCircle,
     FaBars,
 } from "react-icons/fa";
 
 const Layout = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
-    // Function to toggle the sidebar
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
     };
 
     return (
         <div className="layout-container">
-            {/* Collapsible Sidebar */}
+            {/* Sidebar */}
             <div className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
-                {/* Collapse Button - Moved inside the sidebar */}
+                {/* Collapse Button */}
                 <button className="toggle-btn" onClick={toggleSidebar}>
                     <FaBars />
                 </button>
-
                 {/* Logo */}
-                {!isCollapsed && <div className="logo">UF Planner</div>}
-
+                {!isCollapsed && (
+                    <div className="logo">
+                        <span className="highlight-uf">UF</span> Planner
+                    </div>
+                )}
                 {/* Menu */}
                 <ul className="menu-list">
                     <li>
@@ -60,39 +57,25 @@ const Layout = () => {
                             {!isCollapsed && <span className="menu-text">Schedule</span>}
                         </Link>
                     </li>
-                    {
-                    /*
-                                        <li>
-                        <Link to="/auth/grades">
-                            <FaChartBar className="menu-icon" />
-                            {!isCollapsed && <span className="menu-text">Grades</span>}
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/auth/settings">
-                            <FaCog className="menu-icon" />
-                            {!isCollapsed && <span className="menu-text">Settings</span>}
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/auth/help">
-                            <FaQuestionCircle className="menu-icon" />
-                            {!isCollapsed && <span className="menu-text">Help</span>}
-                        </Link>
-                    </li>
-                    */
-                    }
                 </ul>
             </div>
 
-            {/* Main content */}
+            {/* Main content area */}
             <div className="content">
-                <HeaderBar />
-                {/* Routed page content */}
+                {/* Header */}
+                <header className="header-bar">
+                    <h1 className="header-title">
+                        <span className="highlight-uf">UF</span> Course Planner
+                    </h1>
+                    <UserDropdown />
+                </header>
+
+                {/* Main content */}
                 <main className="layout-content">
                     <Outlet />
                 </main>
 
+                {/* Footer */}
                 <footer className="layout-footer">
                     <p>&copy; 2024 UF Course Planner</p>
                 </footer>

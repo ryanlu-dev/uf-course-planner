@@ -1,31 +1,103 @@
-/* src/HeaderBar/HeaderBar.css */
-
-.header-bar {
-    width: 100%;
-    background-color: #0C4DA2;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
+.navigation-wrapper {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
-    padding: 0 20px;
-    box-sizing: border-box;
+    right: 0;
+    z-index: 100;
+}
+
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 64px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .header-title {
-    color: white;
     margin: 0;
-    font-size: 2em;
-    flex-shrink: 0; 
+    font-size: 1.5rem;
 }
 
 .highlight-uf {
-    color: #FFA500; /* Accent color for 'UF' */
+    color: #0021A5;
 }
 
-.user-dropdown {
-    margin-right: 0; /* Reset margin */
+.toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+    .toggle-btn:hover {
+        color: #0021A5;
+    }
+
+.sidebar {
+    position: fixed;
+    top: 64px; /* Height of header */
+    left: 0;
+    bottom: 0;
+    width: 240px;
+    background-color: white;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+    .sidebar.collapsed {
+        transform: translateX(-180px);
+    }
+
+.menu-list {
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
+}
+
+    .menu-list li a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: #333;
+        text-decoration: none;
+        gap: 1rem;
+    }
+
+        .menu-list li a:hover {
+            background-color: #f5f5f5;
+            color: #0021A5;
+        }
+
+.menu-icon {
+    font-size: 1.25rem;
+    min-width: 24px;
+}
+
+/* Update Layout component styles */
+.layout-container {
+    padding-top: 64px; /* Height of header */
+    min-height: 100vh;
+}
+
+.layout-content {
+    margin-left: 240px; /* Width of expanded sidebar */
+    transition: margin-left 0.3s ease;
+    padding: 1rem;
+}
+
+.sidebar.collapsed ~ .layout-content {
+    margin-left: 60px; /* Width of collapsed sidebar */
 }

@@ -1,24 +1,19 @@
-// src/HeaderBar/UserDropdown/UserDropdown.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa"; // Import a user icon
+import { FaUserCircle } from "react-icons/fa";
 import "./UserDropdown.css";
 
 export const UserDropdown = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown state
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const navigate = useNavigate();
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    // Close the dropdown when clicking outside
     React.useEffect(() => {
         const handleClickOutside = (event) => {
-            if (
-                isDropdownOpen &&
-                !event.target.closest(".user-dropdown")
-            ) {
+            if (isDropdownOpen && !event.target.closest(".user-dropdown")) {
                 setIsDropdownOpen(false);
             }
         };
@@ -30,16 +25,14 @@ export const UserDropdown = () => {
 
     return (
         <div className="user-dropdown">
-            <div className="user-icon" onClick={toggleDropdown}>
-                <FaUserCircle />
+            <div className="user-icon" onClick={toggleDropdown} role="button" aria-label="User menu">
+                <FaUserCircle size={24} /> {/* Explicitly set the size */}
             </div>
-
-            {/* Dropdown Menu */}
             {isDropdownOpen && (
                 <div className="dropdown-menu">
                     <button
                         onClick={() => {
-                            navigate("/auth/profile"); 
+                            navigate("/auth/profile");
                             setIsDropdownOpen(false);
                         }}
                     >
@@ -53,18 +46,6 @@ export const UserDropdown = () => {
                     >
                         Logout
                     </button>
-                    {
-                    /*
-                    <button
-                        onClick={() => {
-                            navigate("/auth/settings");
-                            setIsDropdownOpen(false);
-                        }}
-                    >
-                        Settings
-                    </button>
-                    */
-                    }
                 </div>
             )}
         </div>

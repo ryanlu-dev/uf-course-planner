@@ -6,9 +6,9 @@ import HomePage from "./Pages/HomePage";
 import Courses from "./Pages/Courses";
 import DegreePlan from "./Pages/DegreePlan";
 import Schedule from "./Pages/Schedule";
-import Grades from "./Pages/Grades";
-import Settings from "./Pages/Settings";
-import Help from "./Pages/Help";
+//import Grades from "./Pages/Grades";
+//import Settings from "./Pages/Settings";
+//import Help from "./Pages/Help";
 import Profile from "./ProfilePage/Profile";
 import Layout from "./Layout";
 import AzureLoginRedirect from "./Pages/AzureLoginRedirect";
@@ -146,9 +146,11 @@ function App() {
             path="schedule"
             element={isRegistered ? <Schedule /> : <Navigate to="/auth/profile" />}
           />
+          {
+          /*
           <Route
-            path="grades"
-            element={isRegistered ? <Grades /> : <Navigate to="/auth/profile" />}
+          path="grades"
+          element={isRegistered ? <Grades /> : <Navigate to="/auth/profile" />}
           />
           <Route
             path="settings"
@@ -158,6 +160,8 @@ function App() {
             path="help"
             element={isRegistered ? <Help /> : <Navigate to="/auth/profile" />}
           />
+          */
+          }
           <Route
             path="profile"
             element={<Profile />}

@@ -8,9 +8,9 @@ import {
     FaBook,
     FaGraduationCap,
     FaCalendarAlt,
-    FaChartBar,
-    FaCog,
-    FaQuestionCircle,
+    //FaChartBar,
+    //FaCog,
+    //FaQuestionCircle,
     FaBars,
 } from "react-icons/fa";
 
@@ -60,7 +60,9 @@ const Layout = () => {
                             {!isCollapsed && <span className="menu-text">Schedule</span>}
                         </Link>
                     </li>
-                    <li>
+                    {
+                    /*
+                                        <li>
                         <Link to="/auth/grades">
                             <FaChartBar className="menu-icon" />
                             {!isCollapsed && <span className="menu-text">Grades</span>}
@@ -78,6 +80,8 @@ const Layout = () => {
                             {!isCollapsed && <span className="menu-text">Help</span>}
                         </Link>
                     </li>
+                    */
+                    }
                 </ul>
             </div>
 

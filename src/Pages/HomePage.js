@@ -33,6 +33,8 @@ const HomePage = () => {
                             <button className="widget-button">Go to Schedule</button>
                         </Link>
                     </div>
+                    {
+                    /*
                     <div className="widget">
                         <h3>Grades</h3>
                         <p>Track your grades and monitor your academic performance.</p>
@@ -54,6 +56,8 @@ const HomePage = () => {
                             <button className="widget-button">Go to Help</button>
                         </Link>
                     </div>
+                    */
+                    }
                 </div>
             </main>
 

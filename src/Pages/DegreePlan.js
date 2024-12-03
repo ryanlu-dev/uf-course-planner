@@ -10,7 +10,8 @@ const DegreePlan = () => {
 
     const fetchModelSemesterPlan = useCallback(async (a_id) => {
         try {
-            const response = await fetch(`/api/getModelSemesterPlan?azure_id=${encodeURIComponent(a_id)}`);
+            const endpoint = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? `http://localhost:7071/api/getModelSemesterPlan?azure_id=${encodeURIComponent(a_id)}` : `/api/getModelSemesterPlan?azure_id=${encodeURIComponent(a_id)}`;
+            const response = await fetch(endpoint);
             if (!response.ok) {
                 console.error('Failed to fetch model semester plan:', response.statusText);
                 return;

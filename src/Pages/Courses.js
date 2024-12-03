@@ -29,109 +29,110 @@ function Courses() {
     const [validationErrors, setValidationErrors] = useState([]);
 
     // Base URLs for API endpoints
-    const COURSES_URL = 'https://ufcourseplanner.ryanlu.dev/data-api/rest/courses';
-    const SECTIONS_URL = 'https://ufcourseplanner.ryanlu.dev/data-api/rest/sections';
-
-    /**
-     * Fetch all courses from the API, handling pagination via nextLink.
-     * Implement localStorage caching.
-     */
-    const fetchAllCourses = async () => {
-        // Check if courses data exists in localStorage
-        const storedCourses = localStorage.getItem('coursesData');
-        if (storedCourses) {
-            console.log('Using cached courses data from localStorage.');
-            return JSON.parse(storedCourses);
-        }
-
-        let fetchedCourses = [];
-        let endpoint = COURSES_URL;
-        let hasNextPage = true;
-
-        while (hasNextPage) {
-            try {
-                const response = await fetch(endpoint);
-                if (!response.ok) {
-                    throw new Error(`Error fetching courses: ${response.statusText}`);
-                }
-                const data = await response.json();
-
-                if (Array.isArray(data.value)) {
-                    fetchedCourses = [...fetchedCourses, ...data.value];
-                } else {
-                    throw new Error('Invalid data format received from the courses API.');
-                }
-
-                // Check for nextLink to fetch subsequent pages
-                if (data.nextLink) {
-                    const nexturl = new URL(data.nextLink);
-                    const afterParam = nexturl.searchParams.get('$after');
-                    endpoint = `${COURSES_URL}?$after=${afterParam}`;
-                } else {
-                    hasNextPage = false;
-                }
-            } catch (err) {
-                throw err;
-            }
-        }
-
-        // Store fetched courses in localStorage
-        localStorage.setItem('coursesData', JSON.stringify(fetchedCourses));
-        return fetchedCourses;
-    };
-
-    /**
-     * Fetch all sections from the API, handling pagination via nextLink.
-     * Implement localStorage caching.
-     */
-    const fetchAllSections = async () => {
-        // Check if sections data exists in localStorage
-        const storedSections = localStorage.getItem('sectionsData');
-        if (storedSections) {
-            console.log('Using cached sections data from localStorage.');
-            return JSON.parse(storedSections);
-        }
-
-        let fetchedSections = [];
-        let endpoint = SECTIONS_URL;
-        let hasNextPage = true;
-
-        while (hasNextPage) {
-            try {
-                const response = await fetch(endpoint);
-                if (!response.ok) {
-                    throw new Error(`Error fetching sections: ${response.statusText}`);
-                }
-                const data = await response.json();
-
-                if (Array.isArray(data.value)) {
-                    fetchedSections = [...fetchedSections, ...data.value];
-                } else {
-                    throw new Error('Invalid data format received from the sections API.');
-                }
-
-                // Check for nextLink to fetch subsequent pages
-                if (data.nextLink) {
-                    const nexturl = new URL(data.nextLink);
-                    const afterParam = nexturl.searchParams.get('$after');
-                    endpoint = `${SECTIONS_URL}?$after=${afterParam}`;
-                } else {
-                    hasNextPage = false;
-                }
-            } catch (err) {
-                throw err;
-            }
-        }
-
-        // Store fetched sections in localStorage
-        localStorage.setItem('sectionsData', JSON.stringify(fetchedSections));
-        return fetchedSections;
-    };
+    const COURSES_URL = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? `http://localhost:7071/api/getCourses` : `/api/getCourses`;
+    const SECTIONS_URL = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? `http://localhost:7071/api/getSections` : `/api/getSections`;
 
     /**
      * Fetch all courses and sections, then merge them based on course_code.
      */
     const fetchAllData = useCallback(async () => {
+        /**
+         * Fetch all courses from the API, handling pagination via nextLink.
+         * Implement localStorage caching.
+         */
+        const fetchAllCourses = async () => {
+            // Check if courses data exists in localStorage
+            const storedCourses = localStorage.getItem('coursesData');
+            if (storedCourses) {
+                console.log('Using cached courses data from localStorage.');
+                return JSON.parse(storedCourses);
+            }
+
+            let fetchedCourses = [];
+            let endpoint = COURSES_URL;
+            let hasNextPage = true;
+
+            while (hasNextPage) {
+                try {
+                    const response = await fetch(endpoint);
+                    if (!response.ok) {
+                        throw new Error(`Error fetching courses: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    console.log(data);
+                    if (Array.isArray(data)) {
+                        fetchedCourses = [...fetchedCourses, ...data];
+                    } else {
+                        throw new Error('Invalid data format received from the courses API.');
+                    }
+
+                    // Check for nextLink to fetch subsequent pages
+                    if (data.nextLink) {
+                        const nexturl = new URL(data.nextLink);
+                        const afterParam = nexturl.searchParams.get('$after');
+                        endpoint = `${COURSES_URL}?$after=${afterParam}`;
+                    } else {
+                        hasNextPage = false;
+                    }
+                } catch (err) {
+                    throw err;
+                }
+            }
+
+            // Store fetched courses in localStorage
+            localStorage.setItem('coursesData', JSON.stringify(fetchedCourses));
+            return fetchedCourses;
+        };
+
+        /**
+         * Fetch all sections from the API, handling pagination via nextLink.
+         * Implement localStorage caching.
+         */
+        const fetchAllSections = async () => {
+            // Check if sections data exists in localStorage
+            const storedSections = localStorage.getItem('sectionsData');
+            if (storedSections) {
+                console.log('Using cached sections data from localStorage.');
+                return JSON.parse(storedSections);
+            }
+
+            let fetchedSections = [];
+            let endpoint = SECTIONS_URL;
+            let hasNextPage = true;
+
+            while (hasNextPage) {
+                try {
+                    const response = await fetch(endpoint);
+                    if (!response.ok) {
+                        throw new Error(`Error fetching sections: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+
+                    if (Array.isArray(data)) {
+                        fetchedSections = [...fetchedSections, ...data];
+                    } else {
+                        throw new Error('Invalid data format received from the sections API.');
+                    }
+
+                    // Check for nextLink to fetch subsequent pages
+                    if (data.nextLink) {
+                        const nexturl = new URL(data.nextLink);
+                        const afterParam = nexturl.searchParams.get('$after');
+                        endpoint = `${SECTIONS_URL}?$after=${afterParam}`;
+                    } else {
+                        hasNextPage = false;
+                    }
+                } catch (err) {
+                    throw err;
+                }
+            }
+
+            // Store fetched sections in localStorage
+            localStorage.setItem('sectionsData', JSON.stringify(fetchedSections));
+            return fetchedSections;
+        };
+
+
         setLoading(true);
         setError(null);
         try {
@@ -188,7 +189,7 @@ function Courses() {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [COURSES_URL, SECTIONS_URL]);
 
     /**
      * Handle selection of a course.

@@ -99,8 +99,8 @@ const AutoScheduler = () => {
             }
             const data = await response.json();
             return data;
-        } catch (error) {
-            setError('Error fetching sections: ' + error.message);
+        } catch (err) {
+            setError('Error fetching sections: ' + err.message);
             return [];
         }
     }, []);
@@ -280,6 +280,10 @@ const AutoScheduler = () => {
             </div>
         );
     }
+
+    // suppress warnings, temporary
+    console.error(error);
+    console.log(modelSemesterPlan);
 
     return (
         <div className="auto-scheduler">

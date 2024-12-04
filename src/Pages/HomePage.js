@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import './Styles/HomePage.css';
 import AutoScheduler from './AutoScheduler';
 
@@ -15,7 +15,7 @@ const HomePage = () => {
         hours = parseInt(hours);
         if (period.toUpperCase() === 'PM' && hours !== 12) hours += 12;
         if (period.toUpperCase() === 'AM' && hours === 12) hours = 0;
-
+        console.log(_);
         return hours * 60 + parseInt(minutes);
     };
 

@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect, useCallback } from 'react';
 import DOMPurify from 'dompurify';
 
@@ -10,40 +12,78 @@ const AutoScheduler = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showSchedule, setShowSchedule] = useState(false);
+    const [courseCount, setCourseCount] = useState(4);
+    const [blockedDays, setBlockedDays] = useState([]);
+    const [selectedTerm, setSelectedTerm] = useState('Spring 2025');
 
     const azure_id = sessionStorage.getItem("azure_id");
     const msp = localStorage.getItem("msp");
+    const availableDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
     // Parse all courses from HTML content
     const parseCoursesFromHTML = (htmlContent) => {
-        //clean up the HTML content
         const cleanContent = htmlContent.replace(/\n/g, ' ');
-
-        // Create a temporary element to parse the HTML
         const temp = document.createElement('div');
         temp.innerHTML = DOMPurify.sanitize(cleanContent);
-
-        // Find the current semester section
         const text = temp.textContent;
 
-        // Regular expression to match course codes (e.g., ADV 4800, MMC 4200)
-        const coursePattern = /([A-Z]{3})\s*(\d{4})/g;
-        const courses = [];
+        const coursePattern = /([A-Z]{3})\s*(\d{4})[^\d\n]*([^\n\(\)]*?)(?:\(([^\)]*prerequisites[^\)]*)\))?/gi;
+        const courses = new Map();
 
-        // Extract all course codes
         let match;
         while ((match = coursePattern.exec(text)) !== null) {
             const courseCode = match[1] + match[2];
-            // Add the course if it hasn't been added yet
-            if (!courses.some(course => course.code === courseCode)) {
-                courses.push({
-                    code: courseCode
+            const courseName = match[3].trim();
+            const prerequisites = match[4] ? parsePrerequisites(match[4]) : [];
+
+            if (!courses.has(courseCode)) {
+                courses.set(courseCode, {
+                    code: courseCode,
+                    name: courseName || courseCode,
+                    prerequisites: prerequisites
                 });
             }
         }
 
-        console.log("Parsed courses:", courses); // Debugging
-        return courses;
+        return Array.from(courses.values());
+    };
+
+    // Parse prerequisites from text
+    const parsePrerequisites = (prereqText) => {
+        if (!prereqText) return [];
+        const courseCodePattern = /([A-Z]{3})\s*(\d{4})/g;
+        const prerequisites = [];
+        let match;
+
+        while ((match = courseCodePattern.exec(prereqText)) !== null) {
+            prerequisites.push(match[1] + match[2]);
+        }
+
+        return prerequisites;
+    };
+
+    // Check if prerequisites are met
+    const arePrerequisitesMet = (course, completedCourses) => {
+        if (!course.prerequisites || course.prerequisites.length === 0) return true;
+        return course.prerequisites.every(prereq => completedCourses.includes(prereq));
+    };
+
+    // Filter sections by term
+    const filterSectionsByTerm = (sections) => {
+        return sections.filter(section =>
+            section.term && section.term.toLowerCase() === selectedTerm.toLowerCase()
+        );
+    };
+
+    // Handle day blocking toggle
+    const handleDayToggle = (day) => {
+        setBlockedDays(prev => {
+            const newBlockedDays = prev.includes(day)
+                ? prev.filter(d => d !== day)
+                : [...prev, day];
+            localStorage.setItem('blockedDays', JSON.stringify(newBlockedDays));
+            return newBlockedDays;
+        });
     };
 
     // Fetch available sections
@@ -65,19 +105,7 @@ const AutoScheduler = () => {
         }
     }, []);
 
-    // Handle checkbox changes for completed courses
-    const handleCourseToggle = (courseCode) => {
-        setPreviousCourses(prev => {
-            const newPreviousCourses = prev.includes(courseCode)
-                ? prev.filter(code => code !== courseCode)
-                : [...prev, courseCode];
-
-            localStorage.setItem('previousCourses', JSON.stringify(newPreviousCourses));
-            return newPreviousCourses;
-        });
-    };
-
-    // Check for time conflicts between sections
+    // Check for time conflicts
     const hasTimeConflict = (section1, section2) => {
         if (!section1.meeting_times || !section2.meeting_times ||
             section1.meeting_times === "Not listed" ||
@@ -122,21 +150,33 @@ const AutoScheduler = () => {
         return !(time1.end <= time2.start || time1.start >= time2.end);
     };
 
-    // Generate schedule based on remaining courses
+    // Generate schedule
     const generateSchedule = useCallback((sections, completed) => {
-        const remainingCourses = allCourses.filter(course => !completed.includes(course.code));
-        console.log("Remaining courses to schedule:", remainingCourses);
+        const termFilteredSections = filterSectionsByTerm(sections);
+
+        const remainingCourses = allCourses
+            .filter(course => !completed.includes(course.code))
+            .filter(course => arePrerequisitesMet(course, completed));
+
+        console.log("Eligible courses to schedule:", remainingCourses);
 
         let recommendedSections = [];
         let totalCredits = 0;
+        let coursesScheduled = 0;
+
+        const isOnBlockedDay = (section) => {
+            if (!section.meeting_times || section.meeting_times === "Not listed") return false;
+            return blockedDays.some(day => section.meeting_times.includes(day));
+        };
 
         for (const course of remainingCourses) {
-            const availableSectionsForCourse = sections.filter(
-                section => section.course_code === course.code
+            if (coursesScheduled >= courseCount) break;
+
+            const availableSectionsForCourse = termFilteredSections.filter(
+                section => section.course_code === course.code && !isOnBlockedDay(section)
             );
 
             if (availableSectionsForCourse.length > 0) {
-                // Find a section that doesn't conflict with already scheduled sections
                 const compatibleSection = availableSectionsForCourse.find(section =>
                     !recommendedSections.some(scheduled => hasTimeConflict(scheduled, section))
                 );
@@ -146,15 +186,28 @@ const AutoScheduler = () => {
                     if (totalCredits + credits <= 18) {
                         recommendedSections.push(compatibleSection);
                         totalCredits += credits;
+                        coursesScheduled++;
                     }
                 }
             }
         }
 
         return recommendedSections;
-    }, [allCourses]);
+    }, [allCourses, courseCount, blockedDays, selectedTerm]);
 
-    // Save generated schedule
+    // Handle checkbox changes
+    const handleCourseToggle = (courseCode) => {
+        setPreviousCourses(prev => {
+            const newPreviousCourses = prev.includes(courseCode)
+                ? prev.filter(code => code !== courseCode)
+                : [...prev, courseCode];
+
+            localStorage.setItem('previousCourses', JSON.stringify(newPreviousCourses));
+            return newPreviousCourses;
+        });
+    };
+
+    // Save schedule
     const saveSchedule = useCallback(() => {
         try {
             localStorage.setItem('signedUpSections', JSON.stringify(recommendedSchedule));
@@ -166,7 +219,6 @@ const AutoScheduler = () => {
             return false;
         }
     }, [recommendedSchedule]);
-
     // Handle generate schedule button click
     const handleGenerateSchedule = () => {
         const schedule = generateSchedule(availableSections, previousCourses);
@@ -179,7 +231,6 @@ const AutoScheduler = () => {
         const initializeScheduler = async () => {
             setIsLoading(true);
             try {
-                // Load plan
                 let plan = null;
                 if (msp) {
                     plan = JSON.parse(msp);
@@ -193,20 +244,23 @@ const AutoScheduler = () => {
                     localStorage.setItem("msp", JSON.stringify(plan));
                 }
                 setModelSemesterPlan(plan);
-                // Parse courses
+
                 if (plan?.html) {
                     const courses = parseCoursesFromHTML(plan.html);
                     setAllCourses(courses);
                 }
 
-                // Load sections
                 const sections = await fetchSections();
                 setAvailableSections(sections);
 
-                // Load previously saved courses
                 const savedCourses = localStorage.getItem('previousCourses');
                 if (savedCourses) {
                     setPreviousCourses(JSON.parse(savedCourses));
+                }
+
+                const savedBlockedDays = localStorage.getItem('blockedDays');
+                if (savedBlockedDays) {
+                    setBlockedDays(JSON.parse(savedBlockedDays));
                 }
             } catch (error) {
                 setError('Error initializing scheduler: ' + error.message);
@@ -235,6 +289,19 @@ const AutoScheduler = () => {
         <div className="auto-scheduler">
             {!showSchedule ? (
                 <div className="course-checklist">
+                    <div className="term-selector">
+                        <label htmlFor="termSelect">Select Term:</label>
+                        <select
+                            id="termSelect"
+                            value={selectedTerm}
+                            onChange={(e) => setSelectedTerm(e.target.value)}
+                            className="term-select"
+                        >
+                            <option value="Spring 2025">Spring 2025</option>
+                            <option value="Summer 2025">Summer 2025</option>
+                            <option value="Fall 2025">Fall 2025</option>
+                        </select>
+                    </div>
                     <h3>Select Courses You've Completed</h3>
                     <div className="courses-grid">
                         {allCourses.map(course => (
@@ -246,17 +313,56 @@ const AutoScheduler = () => {
                                         onChange={() => handleCourseToggle(course.code)}
                                     />
                                     <span className="course-code">{course.code}</span>
-                                    <span className="course-name">{course.name}</span>
+                                    <span className="course-name">
+                                        {course.name}
+                                        {course.prerequisites && course.prerequisites.length > 0 && (
+                                            <span className="prerequisites">
+                                                Prerequisites: {course.prerequisites.join(', ')}
+                                            </span>
+                                        )}
+                                    </span>
                                 </label>
                             </div>
                         ))}
                     </div>
-                    <button
-                        className="generate-schedule-btn"
-                        onClick={handleGenerateSchedule}
-                    >
-                        Generate Schedule for Remaining Courses
-                    </button>
+                    <div className="schedule-options">
+                        <div className="day-blocking-section">
+                            <h4>Block Out Days</h4>
+                            <div className="day-toggles">
+                                {availableDays.map(day => (
+                                    <label key={day} className="day-toggle">
+                                        <input
+                                            type="checkbox"
+                                            checked={blockedDays.includes(day)}
+                                            onChange={() => handleDayToggle(day)}
+                                        />
+                                        <span>{day}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="course-count-selector">
+                            <label htmlFor="courseCount">Number of Courses to Schedule:</label>
+                            <select
+                                id="courseCount"
+                                value={courseCount}
+                                onChange={(e) => setCourseCount(parseInt(e.target.value))}
+                                className="course-count-select"
+                            >
+                                {[1, 2, 3, 4, 5, 6].map(num => (
+                                    <option key={num} value={num}>
+                                        {num} {num === 1 ? 'Course' : 'Courses'}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <button
+                            className="generate-schedule-btn"
+                            onClick={handleGenerateSchedule}
+                        >
+                            Generate Schedule for {courseCount} {courseCount === 1 ? 'Course' : 'Courses'}
+                        </button>
+                    </div>
                 </div>
             ) : (
                 <div className="schedule-view">
@@ -266,31 +372,58 @@ const AutoScheduler = () => {
                     >
                         Back to Course Selection
                     </button>
-                    <h3>Recommended Schedule</h3>
+                    <h3>Recommended Schedule for {selectedTerm} ({courseCount} {courseCount === 1 ? 'Course' : 'Courses'})</h3>
                     {recommendedSchedule.length > 0 ? (
                         <>
                             <div className="recommended-sections">
-                                {recommendedSchedule.map((section) => (
-                                    <div key={section.section_id} className="section-card">
-                                        <h4>{section.course_code}</h4>
-                                        <div className="section-details">
-                                            <p><span>Instructor:</span> {section.instructor}</p>
-                                            <p><span>Location:</span> {section.room === "Not listed" ? "Online Course" : section.room}</p>
-                                            <p><span>Schedule:</span> {section.meeting_times === "Not listed" ? "Online Course" : section.meeting_times}</p>
-                                            <p><span>Credits:</span> {section.credits}</p>
+                                {recommendedSchedule.map((section) => {
+                                    const course = allCourses.find(c => c.code === section.course_code);
+                                    const isOnline = !section.meeting_times || !section.room ||
+                                        section.meeting_times === "Not listed" ||
+                                        section.room === "Not listed";
+
+                                    return (
+                                        <div key={section.section_id} className="section-card">
+                                            <h4>{section.course_code}</h4><div className="section-details">
+                                                <p><span>Course Name:</span> {course?.name || 'Unknown Course'}</p>
+                                                <p><span>Instructor:</span> {section.instructor}</p>
+                                                {isOnline ? (
+                                                    <p><span>Format:</span> Online Course</p>
+                                                ) : (
+                                                    <>
+                                                        <p><span>Location:</span> {section.room}</p>
+                                                        <p><span>Schedule:</span> {section.meeting_times}</p>
+                                                    </>
+                                                )}
+                                                <p><span>Credits:</span> {section.credits}</p>
+                                                {course?.prerequisites && course.prerequisites.length > 0 && (
+                                                    <p><span>Prerequisites:</span> {course.prerequisites.join(', ')}</p>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
+                                <div className="schedule-summary">
+                                    <p>Total Credits: {recommendedSchedule.reduce((sum, section) =>
+                                        sum + (parseFloat(section.credits) || 3), 0)}
+                                    </p>
+                                </div>
                             </div>
                             <button onClick={saveSchedule} className="save-schedule-btn">
                                 Save Schedule & Export to Calendar
                             </button>
                         </>
                     ) : (
-                        <p className="no-schedule-message">
-                            No schedule could be generated for the remaining courses.
-                            Please check course availability for the current term.
-                        </p>
+                        <div className="no-schedule-message">
+                            <p>No schedule could be generated for {selectedTerm}. This might be due to:</p>
+                            <ul>
+                                <li>No available sections for this term</li>
+                                <li>Prerequisite requirements not met</li>
+                                <li>Time conflicts with blocked days</li>
+                                <li>Credit limit restrictions</li>
+                            </ul>
+                            <p>Try selecting a different term or adjusting your course selection.</p>
+                        </div>
                     )}
                 </div>
             )}

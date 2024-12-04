@@ -60,7 +60,6 @@ const HomePage = () => {
                                     <div key={section.section_id} className="course-card">
                                         <div className="course-header">
                                             <h4>{section.courseTitle}</h4>
-                                            <span className="credits">{section.credits} Credits</span>
                                         </div>
                                         <div className="course-title">{section.course_code}</div>
                                         <p><strong>Instructor:</strong> {section.instructor}</p>

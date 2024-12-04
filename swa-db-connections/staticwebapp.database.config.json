@@ -31,18 +31,11 @@
   "entities": {
     "courses": {
       "source": "courses",
+      "primary-key": [ "code" ], // or whatever your identifying column is
+
       "permissions": [
         {
-          "actions": ["*"],
-          "role": "authenticated"
-        }
-      ]
-    },
-    "user_courses": {
-      "source": "user_courses",
-      "permissions": [
-        {
-          "actions": ["*"],
+          "actions": [ "*" ],
           "role": "authenticated"
         }
       ]

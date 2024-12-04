@@ -17,6 +17,7 @@ const LandingPage = () => {
           </h2>
         </div>
         <nav className="nav-links">
+          <Link to="/">Home</Link>
           <Link to="/about">How it Works</Link>
           <a
             href="https://github.com/bquintopng/uf-course-planner"
@@ -34,16 +35,19 @@ const LandingPage = () => {
           <h1 className="main-title">The All-In-One Scheduling Tool</h1>
           <p className="description">
             Tired of struggling to make sense of what classes to take with which
-            professor at some time? 
-            <br/>Introducing the UF Course Planner:
-            <br />Your personalized platform for academic planning and progress tracking.
+            professor at some time?
+            <br />
+            Introducing the UF Course Planner:
+            <br />
+            Your personalized platform for academic planning and progress
+            tracking.
           </p>
           <div className="cta-buttons">
             <button
               className="cta-button primary"
               onClick={() => navigate("/login")}
             >
-              Sign in with Microsoft    <FaMicrosoft className="shift-logo"/>
+              Sign in with Microsoft <FaMicrosoft className="shift-logo" />
             </button>
           </div>
         </div>

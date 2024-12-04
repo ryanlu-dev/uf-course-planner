@@ -344,7 +344,7 @@
 
     .course-item label {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 10px;
         cursor: pointer;
     }
@@ -352,6 +352,7 @@
     .course-item input[type="checkbox"] {
         width: 18px;
         height: 18px;
+        margin-top: 3px;
     }
 
 .course-code {
@@ -363,6 +364,79 @@
 .course-name {
     color: #666;
     font-size: 0.9em;
+    flex: 1;
+}
+
+.prerequisites {
+    display: block;
+    font-size: 0.85em;
+    color: #dc3545;
+    margin-top: 4px;
+}
+
+.schedule-options {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.day-blocking-section {
+    margin-bottom: 20px;
+}
+
+    .day-blocking-section h4 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+.day-toggles {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.day-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+    .day-toggle input[type="checkbox"] {
+        margin: 0;
+    }
+
+    .day-toggle:hover {
+        background: #e9ecef;
+    }
+
+    .day-toggle input:checked + span {
+        color: #dc3545;
+        font-weight: 600;
+    }
+
+.course-count-selector {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.course-count-select {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    cursor: pointer;
+    min-width: 150px;
 }
 
 .generate-schedule-btn,
@@ -375,25 +449,35 @@
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
-    background-color: #0056b3;
-    color: white;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+}
+
+.generate-schedule-btn,
+.save-schedule-btn {
+    background-color: #0056b3;
+    color: white;
 }
 
     .generate-schedule-btn:hover,
     .save-schedule-btn:hover {
         background-color: #004494;
+        transform: translateY(-1px);
     }
 
 .back-to-courses-btn {
     background-color: #6c757d;
+    color: white;
 }
 
     .back-to-courses-btn:hover {
         background-color: #5a6268;
     }
+
+.schedule-view {
+    padding: 20px;
+}
 
 .recommended-sections {
     display: grid;
@@ -427,20 +511,47 @@
     margin-right: 5px;
 }
 
+.schedule-summary {
+    grid-column: 1 / -1;
+    background: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.no-schedule-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+    .no-schedule-message ul {
+        margin: 10px 0;
+        padding-left: 20px;
+    }
+
+    .no-schedule-message li {
+        margin: 5px 0;
+    }
+
 .auto-scheduler-loading {
     text-align: center;
     padding: 40px;
 }
 
-    .auto-scheduler-loading .spinner {
-        border: 4px solid #f3f3f3;
-        border-top: 4px solid #0056b3;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 20px auto;
-    }
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #0056b3;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
 
 @keyframes spin {
     0% {
